@@ -6,7 +6,13 @@ import itertools
 import pandas as pd
 import os
 
-
+# calculate fft of signal
+def calculate_fft(signal, fs):
+    N = len(signal)
+    T = 1.0 / fs  # Sampling interval (assuming 50 Hz sampling rate)
+    yf = np.fft.fft(signal)
+    xf = np.fft.fftfreq(N, T)[:N // 2]
+    return xf, 2.0 / N * np.abs(yf[0:N // 2])
 
 def butter_lowpass(cutoff, fs, order=4):
     nyq = 0.5 * fs
