@@ -29,7 +29,7 @@ def lowpass_filter(data, cutoff, fs, order=4):
 
 
 # define function for feature extraction (Sum vector magnitude on horizontal plane)
-def sum_vector_magnitude(signal_list, method='all'):
+def sum_vector_magnitude_xz(signal_list, method='all'):
     """
     Compute sum vector magnitude feature from a list of sensor data arrays.
 
@@ -50,7 +50,7 @@ def sum_vector_magnitude(signal_list, method='all'):
         acc_x = data[0, :]
         acc_z = data[2, :]
 
-        values = np.sqrt(acc_x**2 + acc_z**2)
+        values = np.sqrt((acc_x)**2 + (acc_z)**2)
 
         if method == 'mean':
             features.append(np.mean(values))
@@ -64,6 +64,42 @@ def sum_vector_magnitude(signal_list, method='all'):
     print(f"Number of features extracted (f1): {len(features)}")
     return features
 
+# define function for feature extraction (Sum vector magnitude on horizontal plane)
+def sum_vector_magnitude_xyz(signal_list, method='all'):
+    """
+    Compute sum vector magnitude feature from a list of sensor data arrays.
+
+    Parameters:
+        signal_list: list of np.ndarray, each of shape (6, n_samples)
+                        Rows 0-2: Accelerometer [x, y, z]
+        method: str, one of ['mean', 'max', 'all']
+                - 'mean': return mean of value for the whole signal
+                - 'max': return max of value
+                - 'all': return list of values for every sample
+
+    Returns:
+        List of C2 feature values (one per signal input)
+    """
+    features = []
+
+    for data in signal_list:
+        acc_x = data[0, :]
+        acc_y = data[1, :]
+        acc_z = data[2, :]
+
+        values = np.sqrt((acc_x)**2 + (acc_y)**2 + (acc_z)**2)
+
+        if method == 'mean':
+            features.append(np.mean(values))
+        elif method == 'max':
+            features.append(np.max(values))
+        elif method == 'all':
+            features.append(values)
+        else:
+            raise ValueError("Invalid method. Choose from 'mean', 'max', or 'all'.")
+        
+    print(f"Number of features extracted (f1): {len(features)}")
+    return features
 
 def max_peak_to_peak_amp(signal_list, window_size=50, step_size=25):
     """
