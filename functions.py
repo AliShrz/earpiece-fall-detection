@@ -5,6 +5,8 @@ from sklearn.metrics import confusion_matrix
 import itertools
 import pandas as pd
 import os
+import zipfile
+
 
 # calculate fft of signal
 def calculate_fft(signal, fs):
@@ -372,3 +374,173 @@ def ts_fresh_format(input_data, labels, sample_rate=200):
     print("\n✅ Finished creating the DataFrame.")
     df_all = pd.concat(all_dfs, ignore_index=True)
     return df_all
+
+def split_signal(signal, length):
+    """
+    Split a signal into n equal parts.
+    """
+    signl_length = signal.shape[1]
+    n = signl_length // length
+    split_signals = []
+    start = 0
+    end = length
+    for i in range(n):
+        trimmed = signal[:, start:end]
+        start = end
+        end += length
+        split_signals.append(trimmed)
+    print(f"shape: {np.shape(split_signals)}")
+    return split_signals
+
+def split_and_add(input_data, length, file_names):
+    """
+    Splits signals and creates file/activity lists (optimized).
+    """
+    new_data = []
+    new_file_names = []
+    activity_code = file_names[0].split('_')[0]
+
+    for i in range(len(input_data)):
+        file_name = file_names[i]
+        signal = input_data[i]
+        signl_length = signal.shape[1]
+        n = signl_length // length
+        start = 0
+        end = length
+        for _ in range(n):
+            trimmed = signal[:, start:end]
+            new_data.append(trimmed)
+            new_file_names.append(file_name)
+
+    new_activity_code_list = [activity_code] * len(new_data)  # Create new activity code list
+
+    return new_data, new_file_names, new_activity_code_list
+
+def read_zip(zip_file_path, base_path_in_zip, subject_ids ):
+
+    file_name_list = []          # List to store filenames
+    all_data = []               # List to store all data (each item is a 2D array from a file)
+    all_labels = []             # List to store labels corresponding to each data array
+    activity_code_list = []     # List to store activity codes
+    adls = []                   # List to store ADL data
+    falls = []                  # List to store Fall data
+
+    counter = 0
+    ADL = 0
+    FALL = 0
+
+    try:
+        with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
+            for subject_id in subject_ids:
+                folder_path_in_zip = os.path.join(base_path_in_zip, subject_id)
+
+                for item in zip_ref.namelist():
+                    if item.startswith(folder_path_in_zip + '/') and item.endswith('.txt'):
+                        filename_with_path = item
+                        filename = os.path.basename(filename_with_path)
+
+                        try:
+                            # Extract activity code from filename (assuming format is like 'D01_01.txt')
+                            activity_code = filename.split('_')[0]
+                            activity_code_list.append(activity_code)
+                            file_name_list.append(filename)
+
+                            # Open the file within the zip and read it with pandas
+                            with zip_ref.open(filename_with_path) as file:
+                                df = pd.read_csv(file, header=None, delimiter=',', usecols=[0, 1, 2, 3, 4, 5], on_bad_lines='skip')
+                                data = df.to_numpy()    # Convert to NumPy array
+                                data = data.transpose()  # Transpose the data to get the desired shape
+
+                                # determine label
+                                if activity_code.startswith('D'):
+                                    adls.append(data)
+                                    label = 'ADL'
+                                    ADL += 1
+                                elif activity_code.startswith('F'):
+                                    falls.append(data)
+                                    label = 'Fall'
+                                    FALL += 1
+                                else:
+                                    label = 'Unknown'
+
+                                # Append the 2D array to the list
+                                all_data.append(data)
+                                all_labels.append(label)
+                                counter += 1
+                                print(f'\rProgress: {counter}/{4505} files processed', end='')
+
+                        except Exception as e:
+                            print(f"\nError reading {filename_with_path} from zip: {e}")
+
+    except FileNotFoundError:
+        print(f"\nError: Zip file not found at {zip_file_path}")
+    except zipfile.BadZipFile:
+        print(f"\nError: Invalid zip file at {zip_file_path}")
+    except Exception as e:
+        print(f"\nError reading {filename_with_path} from zip: {e}")
+
+    print(f"\nTotal files processed: {counter} ✅")
+    print(f"Total ADL labels: {ADL} ✅")
+    print(f"Total Fall labels: {FALL} ✅")
+    return all_data, all_labels, activity_code_list, adls, falls
+
+def read_file(base_path, subject_ids):
+
+    all_data = []               # List to store all data (each item is a 2D array from a file)
+    all_labels = []             # List to store labels corresponding to each data array
+    activity_code_list = []     # List to store activity codes
+    adls = []                   # List to store ADL data
+    falls = []                  # List to store Fall data
+
+    counter = 0
+    ADL = 0
+    FALL = 0
+
+    for subject_id in subject_ids:
+        folder_path = os.path.join(base_path, subject_id)
+
+        if not os.path.isdir(folder_path):
+            print(f"Folder not found: {folder_path}")
+            continue
+
+        for filename in os.listdir(folder_path):
+            if filename.endswith('.txt'):
+                file_path = os.path.join(folder_path, filename)
+
+                try:
+                    # Extract activity code from filename (assuming format is like 'D01_01.txt')
+                    activity_code = filename.split('_')[0]
+                    activity_code_list.append(activity_code)
+
+                    # Load the first 6 columns of comma-separated file
+                    df = pd.read_csv(file_path, header=None, delimiter=',', usecols=[0, 1, 2, 3, 4, 5], on_bad_lines='skip')
+                    data = df.to_numpy()    # Convert to NumPy array
+                    data = data.transpose()  # Transpose the data to get the desired shape
+
+                    # determine label
+                    if activity_code.startswith('D'):
+                        adls.append(data)
+                        label = 'ADL'
+                        ADL += 1
+                    elif activity_code.startswith('F'):
+                        falls.append(data)
+                        label = 'Fall'
+                        FALL += 1
+                    else:
+                        label = 'Unknown'
+
+                    # Append the 2D array to the list
+                    all_data.append(data)
+                    all_labels.append(label)
+                    counter += 1
+                    print(f'\rProgress: {counter}/{4505} files processed', end='')
+
+
+                except Exception as e:
+                    print(f"Error reading {file_path}: {e}")
+
+    print(f"\nTotal files processed: {counter} ✅")
+    print(f"Total ADL labels: {ADL} ✅")
+    print(f"Total Fall labels: {FALL} ✅")
+    return all_data, all_labels, activity_code_list, adls, falls
+
