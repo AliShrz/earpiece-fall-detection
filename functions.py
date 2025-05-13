@@ -585,7 +585,7 @@ def idle_remover(data_list, window_size, scale):
 
     return all_cleaned_data
 
-def plot_signals(data, data_2):
+def plot_signals(data, data_2, title_1, title_2):
     
     plt.figure(figsize=(15, 10))
 
@@ -594,7 +594,7 @@ def plot_signals(data, data_2):
     plt.plot(data[0, :], label='X-axis')
     plt.plot(data[1, :], label='Y-axis')
     plt.plot(data[2, :], label='Z-axis')
-    plt.title('Original Signal (First 3 Axes)')
+    plt.title(f'Original Signal (Accelerometer) - {title_1}')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -605,7 +605,7 @@ def plot_signals(data, data_2):
     plt.plot(data_2[0, :], label='X-axis')
     plt.plot(data_2[1, :], label='Y-axis')
     plt.plot(data_2[2, :], label='Z-axis')
-    plt.title('Cleaned Signal (First 3 Axes)')
+    plt.title(f'Cleaned Signal (Accelerometer) - {title_2}')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -616,7 +616,7 @@ def plot_signals(data, data_2):
     plt.plot(data[3, :], label='X-axis')
     plt.plot(data[4, :], label='Y-axis')
     plt.plot(data[5, :], label='Z-axis')
-    plt.title('Original Signal (Last 3 Axes)')
+    plt.title(f'Original Signal (Gyro) - {title_1}')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -627,7 +627,7 @@ def plot_signals(data, data_2):
     plt.plot(data_2[3, :], label='X-axis')
     plt.plot(data_2[4, :], label='Y-axis')
     plt.plot(data_2[5, :], label='Z-axis')
-    plt.title('Cleaned Signal (Last 3 Axes)')
+    plt.title(f'Cleaned Signal (Gyro) - {title_2}')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
