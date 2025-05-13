@@ -413,6 +413,9 @@ def split_and_add(input_data, length, file_names):
             new_file_names.append(file_name)
 
     new_activity_code_list = [activity_code] * len(new_data)  # Create new activity code list
+    new_data = np.array(new_data)  # Convert to numpy array
+    print(f"number of new {activity_code} data: {len(new_data)} with shape: {np.shape(new_data)}, "
+          f"file_names :{len(new_file_names)}, activities: {len(new_activity_code_list)} ")
 
     return new_data, new_file_names, new_activity_code_list
 
@@ -482,10 +485,11 @@ def read_zip(zip_file_path, base_path_in_zip, subject_ids ):
     print(f"\nTotal files processed: {counter} ✅")
     print(f"Total ADL labels: {ADL} ✅")
     print(f"Total Fall labels: {FALL} ✅")
-    return all_data, all_labels, activity_code_list, adls, falls
+    return all_data, all_labels, activity_code_list, file_name_list, adls, falls
 
 def read_file(base_path, subject_ids):
 
+    file_name_list = []          # List to store filenames
     all_data = []               # List to store all data (each item is a 2D array from a file)
     all_labels = []             # List to store labels corresponding to each data array
     activity_code_list = []     # List to store activity codes
@@ -511,6 +515,7 @@ def read_file(base_path, subject_ids):
                     # Extract activity code from filename (assuming format is like 'D01_01.txt')
                     activity_code = filename.split('_')[0]
                     activity_code_list.append(activity_code)
+                    file_name_list.append(filename)
 
                     # Load the first 6 columns of comma-separated file
                     df = pd.read_csv(file_path, header=None, delimiter=',', usecols=[0, 1, 2, 3, 4, 5], on_bad_lines='skip')
@@ -542,5 +547,91 @@ def read_file(base_path, subject_ids):
     print(f"\nTotal files processed: {counter} ✅")
     print(f"Total ADL labels: {ADL} ✅")
     print(f"Total Fall labels: {FALL} ✅")
-    return all_data, all_labels, activity_code_list, adls, falls
+    return all_data, all_labels, activity_code_list, file_name_list, adls, falls
 
+
+def idle_remover(data_list, window_size, scale):
+
+    all_cleaned_data = []
+
+    for i in range(len(data_list)):
+        signal = data_list[i]  # Shape (6, N)
+        
+        # Combine first 3 axes (e.g., accelerometer)
+        combined_axis = np.abs(signal[0]) + np.abs(signal[1]) + np.abs(signal[2])
+        
+        # Set dynamic threshold
+        variance = np.var(combined_axis)
+        threshold = variance / scale
+
+        windowed_data = []
+
+        for j in range(0, signal.shape[1] - window_size + 1, window_size):  # Non-overlapping
+            window = combined_axis[j:j + window_size]
+            var = np.var(window)
+
+            if var >= threshold:
+                # Keep full 6-axis data
+                windowed_data.append(signal[:, j:j + window_size])
+
+        if windowed_data:
+            cleaned_signal = np.concatenate(windowed_data, axis=1)
+        else:
+            cleaned_signal = np.empty((6, 0))  # 6 channels, 0 time samples
+
+        print(f"Signal {i+1}: Original shape = {signal.shape}, Cleaned shape = {cleaned_signal.shape}")
+        all_cleaned_data.append(cleaned_signal)
+    print(f"Total cleaned signals: {len(all_cleaned_data)}")
+
+    return all_cleaned_data
+
+def plot_signals(data, data_2):
+    
+    plt.figure(figsize=(15, 10))
+
+    # Plot original signal (first 3 axes)
+    plt.subplot(4, 1, 1)
+    plt.plot(data[0, :], label='X-axis')
+    plt.plot(data[1, :], label='Y-axis')
+    plt.plot(data[2, :], label='Z-axis')
+    plt.title('Original Signal (First 3 Axes)')
+    plt.xlabel('Sample')
+    plt.ylabel('Value')
+    plt.grid()
+    plt.legend()
+
+    # Plot cleaned signal (first 3 axes)
+    plt.subplot(4, 1, 2)
+    plt.plot(data_2[0, :], label='X-axis')
+    plt.plot(data_2[1, :], label='Y-axis')
+    plt.plot(data_2[2, :], label='Z-axis')
+    plt.title('Cleaned Signal (First 3 Axes)')
+    plt.xlabel('Sample')
+    plt.ylabel('Value')
+    plt.grid()
+    plt.legend()
+
+    # Plot original signal (last 3 axes)
+    plt.subplot(4, 1, 3)
+    plt.plot(data[3, :], label='X-axis')
+    plt.plot(data[4, :], label='Y-axis')
+    plt.plot(data[5, :], label='Z-axis')
+    plt.title('Original Signal (Last 3 Axes)')
+    plt.xlabel('Sample')
+    plt.ylabel('Value')
+    plt.grid()
+    plt.legend()
+
+    # Plot cleaned signal (last 3 axes)
+    plt.subplot(4, 1, 4)
+    plt.plot(data_2[3, :], label='X-axis')
+    plt.plot(data_2[4, :], label='Y-axis')
+    plt.plot(data_2[5, :], label='Z-axis')
+    plt.title('Cleaned Signal (Last 3 Axes)')
+    plt.xlabel('Sample')
+    plt.ylabel('Value')
+    plt.grid()
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
