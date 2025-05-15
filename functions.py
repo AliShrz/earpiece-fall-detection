@@ -145,8 +145,8 @@ def max_peak_to_peak_amp(signal_list, window_size=50, step_size=25):
     print(f"Number of features extracted (f2): {len(features)}")
     return features
 
+##########################################################################################
 
-# define function for feature extraction Standard deviation magnitude on horizontal plane
 def standard_deviation_magnitude_h(signal_list, window_size=50, step_size=25):
     """
     Compute Standard Deviation Magnitude feature from a list of 2D sensor data arrays.
@@ -186,8 +186,8 @@ def standard_deviation_magnitude_h(signal_list, window_size=50, step_size=25):
     print(f"Number of features extracted (f3): {len(features)}")
     return features
 
+##########################################################################################
 
-# define function for feature extraction Standard deviation magnitude
 def standard_deviation_magnitude(signal_list, window_size=50, step_size=25):
     """
     Compute Standard Deviation Magnitude feature from a list of 6-row sensor data arrays.
@@ -230,14 +230,8 @@ def standard_deviation_magnitude(signal_list, window_size=50, step_size=25):
     print(f"Number of features extracted (f4): {len(features)}")
     return features
 
-# data_array = all_data
-# f2 = max_peak_to_peak_amp(data_array)
-# f3 = standard_deviation_magnitude_h(data_array)
+##########################################################################################
 
-
-# crate window for visualizing time of fall
-
-# if value of x, y and z axis is less than 0.5 then window starts
 def find_fall_window(signal, threshold=600):
     """
     Find the start and end indices of the fall window in a signal.
@@ -261,6 +255,8 @@ def find_fall_window(signal, threshold=600):
     end = start + 100 if start is not None else None  # Assuming a fixed window size of 2000 samples
     # print(mask_value)
     return start, end
+
+##########################################################################################
 
 def plot_fall_window(signal, start, end):
     """
@@ -287,6 +283,8 @@ def plot_fall_window(signal, start, end):
 # Make all data the same length by keeping the middle part
 # Return a new list with all signals trimmed to the same length (centered)
 
+##########################################################################################
+
 def data_equal_trim(signals):
     min_length = min(matrix.shape[1] for matrix in signals)
     trimmed_signals = []
@@ -304,7 +302,7 @@ def data_equal_trim(signals):
     
     return trimmed_signals
 
-
+##########################################################################################
 
 def plot_confusion_matrix(cm, classes, normalize = False, title='Confusion Matrix', cmap=plt.cm.Blues):
     """
@@ -338,6 +336,7 @@ def plot_confusion_matrix(cm, classes, normalize = False, title='Confusion Matri
     plt.xlabel('Predicted label')
     plt.show()
 
+##########################################################################################
 
 def ts_fresh_format(input_data, labels, sample_rate=200):
     """
@@ -375,6 +374,8 @@ def ts_fresh_format(input_data, labels, sample_rate=200):
     df_all = pd.concat(all_dfs, ignore_index=True)
     return df_all
 
+##########################################################################################
+
 def split_signal(signal, length):
     """
     Split a signal into n equal parts.
@@ -391,6 +392,8 @@ def split_signal(signal, length):
         split_signals.append(trimmed)
     print(f"shape: {np.shape(split_signals)}")
     return split_signals
+
+##########################################################################################
 
 def split_and_add(input_data, length, file_names):
     """
@@ -418,6 +421,8 @@ def split_and_add(input_data, length, file_names):
           f"file_names :{len(new_file_names)}, activities: {len(new_activity_code_list)} ")
 
     return new_data, new_file_names, new_activity_code_list
+
+##########################################################################################
 
 def read_zip(zip_file_path, base_path_in_zip, subject_ids ):
 
@@ -487,6 +492,8 @@ def read_zip(zip_file_path, base_path_in_zip, subject_ids ):
     print(f"Total Fall labels: {FALL} ✅")
     return all_data, all_labels, activity_code_list, file_name_list, adls, falls
 
+##########################################################################################
+
 def read_file(base_path, subject_ids):
 
     file_name_list = []          # List to store filenames
@@ -549,43 +556,60 @@ def read_file(base_path, subject_ids):
     print(f"Total Fall labels: {FALL} ✅")
     return all_data, all_labels, activity_code_list, file_name_list, adls, falls
 
+##########################################################################################
 
-def idle_remover(data_list, window_size, scale):
+def idle_remover(data_list, window_size, scale, mode):    # modes: 'acc', 'gyro', 'both'
 
     all_cleaned_data = []
 
     for i in range(len(data_list)):
-        signal = data_list[i]  # Shape (6, N)
-        
-        # Combine first 3 axes (e.g., accelerometer)
-        combined_axis = np.abs(signal[0]) + np.abs(signal[1]) + np.abs(signal[2])
-        
-        # Set dynamic threshold
-        variance = np.var(combined_axis)
-        threshold = variance / scale
+        signal = data_list[i]  # shape: (6, N)
+        acc = signal[0:3]
+        gyro = signal[3:6]
+
+        # Precompute thresholds
+        acc_combined = np.abs(acc[0]) + np.abs(acc[1]) + np.abs(acc[2])
+        gyro_combined = np.abs(gyro[0]) + np.abs(gyro[1]) + np.abs(gyro[2])
+
+        acc_threshold = np.var(acc_combined) / scale
+        gyro_threshold = np.var(gyro_combined) / scale
 
         windowed_data = []
 
-        for j in range(0, signal.shape[1] - window_size + 1, window_size):  # Non-overlapping
-            window = combined_axis[j:j + window_size]
-            var = np.var(window)
+        for j in range(0, signal.shape[1] - window_size + 1, window_size):
+            acc_window = acc_combined[j:j + window_size]
+            gyro_window = gyro_combined[j:j + window_size]
 
-            if var >= threshold:
-                # Keep full 6-axis data
+            acc_var = np.var(acc_window)
+            gyro_var = np.var(gyro_window)
+
+            # Check condition based on selected mode
+            keep = False
+            if mode == 'acc':
+                keep = acc_var >= acc_threshold
+            elif mode == 'gyro':
+                keep = gyro_var >= gyro_threshold
+            elif mode == 'both':
+                keep = (acc_var >= acc_threshold) and (gyro_var >= gyro_threshold)
+            else:
+                raise ValueError("Invalid mode. Use 'acc', 'gyro', or 'both'.")
+
+            if keep:
                 windowed_data.append(signal[:, j:j + window_size])
 
         if windowed_data:
             cleaned_signal = np.concatenate(windowed_data, axis=1)
         else:
-            cleaned_signal = np.empty((6, 0))  # 6 channels, 0 time samples
+            cleaned_signal = np.empty((6, 0))
 
         print(f"Signal {i+1}: Original shape = {signal.shape}, Cleaned shape = {cleaned_signal.shape}")
         all_cleaned_data.append(cleaned_signal)
-    print(f"Total cleaned signals: {len(all_cleaned_data)}")
 
     return all_cleaned_data
 
-def plot_signals(data, data_2, title_1, title_2):
+##########################################################################################
+
+def plot_signals(data, data_2, title_1, title_2, activity_mapping):
     
     plt.figure(figsize=(15, 10))
 
@@ -594,7 +618,7 @@ def plot_signals(data, data_2, title_1, title_2):
     plt.plot(data[0, :], label='X-axis')
     plt.plot(data[1, :], label='Y-axis')
     plt.plot(data[2, :], label='Z-axis')
-    plt.title(f'Original Signal (Accelerometer) - {title_1}')
+    plt.title(f'{activity_mapping[title_1]} - (Accelerometer)')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -605,7 +629,7 @@ def plot_signals(data, data_2, title_1, title_2):
     plt.plot(data_2[0, :], label='X-axis')
     plt.plot(data_2[1, :], label='Y-axis')
     plt.plot(data_2[2, :], label='Z-axis')
-    plt.title(f'Cleaned Signal (Accelerometer) - {title_2}')
+    plt.title(f'{activity_mapping[title_2]} - (Accelerometer)')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -616,7 +640,7 @@ def plot_signals(data, data_2, title_1, title_2):
     plt.plot(data[3, :], label='X-axis')
     plt.plot(data[4, :], label='Y-axis')
     plt.plot(data[5, :], label='Z-axis')
-    plt.title(f'Original Signal (Gyro) - {title_1}')
+    plt.title(f'{activity_mapping[title_1]} - (Gyro)')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
@@ -627,11 +651,36 @@ def plot_signals(data, data_2, title_1, title_2):
     plt.plot(data_2[3, :], label='X-axis')
     plt.plot(data_2[4, :], label='Y-axis')
     plt.plot(data_2[5, :], label='Z-axis')
-    plt.title(f'Cleaned Signal (Gyro) - {title_2}')
+    plt.title(f'{activity_mapping[title_2]} - (Gyro)')
     plt.xlabel('Sample')
     plt.ylabel('Value')
     plt.grid()
     plt.legend()
 
+    
     plt.tight_layout()
     plt.show()
+
+##########################################################################################
+
+def keep_from_peak(data_list, window_size):
+    all_cleaned_data = []
+    
+    for i, signal in enumerate(data_list):
+        # Compute the combined absolute magnitude of the first 3 axes
+        combined = np.abs(signal[0]) + np.abs(signal[1]) + np.abs(signal[2])
+        
+        # Find the index of the peak
+        peak_index = np.argmax(combined)
+        
+        # Determine start and end of window
+        start = max(0, peak_index - window_size)
+        end = min(signal.shape[1], peak_index + window_size)
+
+        # Slice the signal and store it
+        cleaned = signal[:, start:end]
+        all_cleaned_data.append(cleaned)
+        
+        print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
+    
+    return all_cleaned_data
