@@ -663,6 +663,155 @@ def plot_signals(data, data_2, title_1, title_2, activity_mapping):
 
 ##########################################################################################
 
+def plot_captured_signals(data, data_1, data_3, title, title_1, title_2, activity_mapping):
+    plt.figure(figsize=(15, 12))
+
+    # Row 1: Original Accelerometer
+    plt.subplot(4, 1, 1)
+    plt.plot(data[0, :], label='X-axis')
+    plt.plot(data[1, :], label='Y-axis')
+    plt.plot(data[2, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title]} - Original Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 2: Cleaned Accelerometer 1 (data_1)
+    plt.subplot(4, 2, 3)
+    plt.plot(data_1[0, :], label='X-axis')
+    plt.plot(data_1[1, :], label='Y-axis')
+    plt.plot(data_1[2, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title_1]} - Cleaned Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 2: Cleaned Accelerometer 2 (data_3)
+    plt.subplot(4, 2, 4)
+    plt.plot(data_3[0, :], label='X-axis')
+    plt.plot(data_3[1, :], label='Y-axis')
+    plt.plot(data_3[2, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title_2]} - Cleaned Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 3: Original Gyroscope
+    plt.subplot(4, 1, 3)
+    plt.plot(data[3, :], label='X-axis')
+    plt.plot(data[4, :], label='Y-axis')
+    plt.plot(data[5, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title]} - Original Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    # Row 4: Cleaned Gyroscope 1 (data_1)
+    plt.subplot(4, 2, 7)
+    plt.plot(data_1[3, :], label='X-axis')
+    plt.plot(data_1[4, :], label='Y-axis')
+    plt.plot(data_1[5, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title_1]} - Cleaned Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    # Row 4: Cleaned Gyroscope 2 (data_3)
+    plt.subplot(4, 2, 8)
+    plt.plot(data_3[3, :], label='X-axis')
+    plt.plot(data_3[4, :], label='Y-axis')
+    plt.plot(data_3[5, :], label='Z-axis')
+    plt.title(f'{activity_mapping[title_2]} - Cleaned Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+##########################################################################################
+
+def plot_captured_signals(data, data_1, data_3, title, title_1, title_2, activity_mapping):
+    plt.figure(figsize=(15, 12))
+
+    # Row 1: Original Accelerometer
+    plt.subplot(4, 1, 1)
+    plt.plot(data[0, :], label='X-axis')
+    plt.plot(data[1, :], label='Y-axis')
+    plt.plot(data[2, :], label='Z-axis')
+    plt.title(f'{title} - Original Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 2: Cleaned Accelerometer 1 (data_1)
+    plt.subplot(4, 2, 3)
+    plt.plot(data_1[0, :], label='X-axis')
+    plt.plot(data_1[1, :], label='Y-axis')
+    plt.plot(data_1[2, :], label='Z-axis')
+    plt.title(f'{title_1} - first part Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 2: Cleaned Accelerometer 2 (data_3)
+    plt.subplot(4, 2, 4)
+    plt.plot(data_3[0, :], label='X-axis')
+    plt.plot(data_3[1, :], label='Y-axis')
+    plt.plot(data_3[2, :], label='Z-axis')
+    plt.title(f'{title_2} - second part Accelerometer')
+    plt.xlabel('Sample')
+    plt.ylabel('Acceleration')
+    plt.grid()
+    plt.legend()
+
+    # Row 3: Original Gyroscope
+    plt.subplot(4, 1, 3)
+    plt.plot(data[3, :], label='X-axis')
+    plt.plot(data[4, :], label='Y-axis')
+    plt.plot(data[5, :], label='Z-axis')
+    plt.title(f'{title} - Original Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    # Row 4: Cleaned Gyroscope 1 (data_1)
+    plt.subplot(4, 2, 7)
+    plt.plot(data_1[3, :], label='X-axis')
+    plt.plot(data_1[4, :], label='Y-axis')
+    plt.plot(data_1[5, :], label='Z-axis')
+    plt.title(f'{title_1} - first part Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    # Row 4: Cleaned Gyroscope 2 (data_3)
+    plt.subplot(4, 2, 8)
+    plt.plot(data_3[3, :], label='X-axis')
+    plt.plot(data_3[4, :], label='Y-axis')
+    plt.plot(data_3[5, :], label='Z-axis')
+    plt.title(f'{title_2} - second part Gyroscope')
+    plt.xlabel('Sample')
+    plt.ylabel('Rotation')
+    plt.grid()
+    plt.legend()
+
+    plt.suptitle(f'Comparison of Original and Cleaned Signals for {activity_mapping[title]}', fontsize=16)
+    plt.tight_layout()
+    plt.show()
+
+##########################################################################################
+
 def keep_from_peak(data_list, window_size):
     all_cleaned_data = []
     
