@@ -609,6 +609,97 @@ def idle_remover(data_list, window_size, scale, mode):    # modes: 'acc', 'gyro'
 
 ##########################################################################################
 
+def movement_parts_extraction(data_list, window_size, gyro_threshold, use_window=True):
+    """
+    Extract two movement parts from gyroscope signal using a threshold on combined axis values.
+
+    Parameters:
+        data_list: list of np.ndarray of shape (6, N)
+        window_size: int - size of the sliding window
+        gyro_threshold: float - threshold to detect movement (0 to 1, applied on normalized signal)
+        use_window: bool - if True, uses windowed average; if False, uses per-sample values
+
+    Returns:
+        new_data_list_1, new_data_list_2: list of np.ndarray (first and second movement parts)
+    """
+    new_data_list_1 = []
+    new_data_list_2 = []
+
+    for signal in data_list:
+        gyro = signal[3:6, :]  # shape: (3, N)
+
+        # Combine gyroscope axis absolute values
+        gyro_combined = np.abs(gyro[0]) + np.abs(gyro[1]) + np.abs(gyro[2])
+
+        # Normalize using min and max
+        g_min = np.min(gyro_combined)
+        g_max = np.max(gyro_combined)
+        normalized_gyro = (gyro_combined - g_min) / (g_max - g_min + 1e-8)  # avoid division by zero
+
+        start_1 = end_1 = start_2 = end_2 = None
+        state = 0
+        N = signal.shape[1]
+
+        for j in range(0, N - window_size + 1):
+            # Compute average over window or single sample
+            value = np.mean(normalized_gyro[j:j + window_size]) if use_window else normalized_gyro[j]
+
+            if state == 0 and value > gyro_threshold:
+                start_1 = j
+                state = 1
+            elif state == 1 and value <= gyro_threshold:
+                # Only end movement if it's been long enough since it started
+                if j - start_1 > window_size:  # minimum duration to count as a movement
+                    end_1 = j + window_size
+                    state = 2
+            elif state == 2 and value > gyro_threshold:
+                start_2 = j
+                state = 3
+            elif state == 3 and value <= gyro_threshold:
+                if j - start_2 > window_size:
+                    end_2 = j + window_size
+                    break  # Both parts found
+
+        # Finalize
+        if state == 3 and end_2 is None:
+            end_2 = N
+        elif state == 1:
+            end_1 = N
+
+        cleaned_signal_1 = signal[:, start_1:end_1] if start_1 is not None and end_1 is not None else np.empty((6, 0))
+        cleaned_signal_2 = signal[:, start_2:end_2] if start_2 is not None and end_2 is not None else np.empty((6, 0))
+
+        new_data_list_1.append(cleaned_signal_1)
+        new_data_list_2.append(cleaned_signal_2)
+
+    return new_data_list_1, new_data_list_2
+
+##########################################################################################
+
+def keep_from_peak(data_list, window_size):
+    all_cleaned_data = []
+    
+    for i, signal in enumerate(data_list):
+        # Compute the combined absolute magnitude of the first 3 axes
+        combined = np.abs(signal[0]) + np.abs(signal[1]) + np.abs(signal[2])
+        
+        # Find the index of the peak
+        peak_index = np.argmax(combined)
+        
+        # Determine start and end of window
+        start = max(0, peak_index - window_size)
+        end = min(signal.shape[1], peak_index + window_size)
+
+        # Slice the signal and store it
+        cleaned = signal[:, start:end]
+        all_cleaned_data.append(cleaned)
+        
+        print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
+    
+    return all_cleaned_data
+
+##########################################################################################
+
 def plot_signals(data, data_2, title_1, title_2, activity_mapping):
     
     plt.figure(figsize=(15, 10))
@@ -806,30 +897,9 @@ def plot_captured_signals(data, data_1, data_3, title, title_1, title_2, activit
     plt.grid()
     plt.legend()
 
-    plt.suptitle(f'Comparison of Original and Cleaned Signals for {activity_mapping[title]}', fontsize=16)
-    plt.tight_layout()
+    plt.suptitle(f'Comparison of Original and Cleaned Signals for \n{activity_mapping[title]}', fontsize=16)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.98])
     plt.show()
 
 ##########################################################################################
 
-def keep_from_peak(data_list, window_size):
-    all_cleaned_data = []
-    
-    for i, signal in enumerate(data_list):
-        # Compute the combined absolute magnitude of the first 3 axes
-        combined = np.abs(signal[0]) + np.abs(signal[1]) + np.abs(signal[2])
-        
-        # Find the index of the peak
-        peak_index = np.argmax(combined)
-        
-        # Determine start and end of window
-        start = max(0, peak_index - window_size)
-        end = min(signal.shape[1], peak_index + window_size)
-
-        # Slice the signal and store it
-        cleaned = signal[:, start:end]
-        all_cleaned_data.append(cleaned)
-        
-        print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
-    
-    return all_cleaned_data
