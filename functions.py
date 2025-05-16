@@ -558,6 +558,7 @@ def read_file(base_path, subject_ids):
 
 ##########################################################################################
 
+# remove parts of signal that have no movement
 def idle_remover(data_list, window_size, scale, mode):    # modes: 'acc', 'gyro', 'both'
 
     all_cleaned_data = []
@@ -676,7 +677,12 @@ def movement_parts_extraction(data_list, window_size, gyro_threshold, use_window
 
 ##########################################################################################
 
+# find position of max valur in signal, then keep a desired size from both sides
 def keep_from_peak(data_list, window_size):
+    """
+    For each signal in data_list, keep a slice of length 2*window_size
+    centered around the peak point (maximum combined absolute value of first 3 axes).
+    """
     all_cleaned_data = []
     
     for i, signal in enumerate(data_list):
@@ -698,9 +704,10 @@ def keep_from_peak(data_list, window_size):
     
     return all_cleaned_data
 
-##########################################################################################
+###################################        Plot Functions        ###################################
 
-def plot_signals(data, data_2, title_1, title_2, activity_mapping):
+# plot 2 signals, first two are accelerometer and last two are gyroscope
+def plot_signals(data, data_2, title, title_1, title_2, activity_mapping):
     
     plt.figure(figsize=(15, 10))
 
@@ -748,87 +755,14 @@ def plot_signals(data, data_2, title_1, title_2, activity_mapping):
     plt.grid()
     plt.legend()
 
-    
+    plt.suptitle(f'{title}', fontsize=16)
     plt.tight_layout()
     plt.show()
 
 ##########################################################################################
 
-def plot_captured_signals(data, data_1, data_3, title, title_1, title_2, activity_mapping):
-    plt.figure(figsize=(15, 12))
-
-    # Row 1: Original Accelerometer
-    plt.subplot(4, 1, 1)
-    plt.plot(data[0, :], label='X-axis')
-    plt.plot(data[1, :], label='Y-axis')
-    plt.plot(data[2, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title]} - Original Accelerometer')
-    plt.xlabel('Sample')
-    plt.ylabel('Acceleration')
-    plt.grid()
-    plt.legend()
-
-    # Row 2: Cleaned Accelerometer 1 (data_1)
-    plt.subplot(4, 2, 3)
-    plt.plot(data_1[0, :], label='X-axis')
-    plt.plot(data_1[1, :], label='Y-axis')
-    plt.plot(data_1[2, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title_1]} - Cleaned Accelerometer')
-    plt.xlabel('Sample')
-    plt.ylabel('Acceleration')
-    plt.grid()
-    plt.legend()
-
-    # Row 2: Cleaned Accelerometer 2 (data_3)
-    plt.subplot(4, 2, 4)
-    plt.plot(data_3[0, :], label='X-axis')
-    plt.plot(data_3[1, :], label='Y-axis')
-    plt.plot(data_3[2, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title_2]} - Cleaned Accelerometer')
-    plt.xlabel('Sample')
-    plt.ylabel('Acceleration')
-    plt.grid()
-    plt.legend()
-
-    # Row 3: Original Gyroscope
-    plt.subplot(4, 1, 3)
-    plt.plot(data[3, :], label='X-axis')
-    plt.plot(data[4, :], label='Y-axis')
-    plt.plot(data[5, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title]} - Original Gyroscope')
-    plt.xlabel('Sample')
-    plt.ylabel('Rotation')
-    plt.grid()
-    plt.legend()
-
-    # Row 4: Cleaned Gyroscope 1 (data_1)
-    plt.subplot(4, 2, 7)
-    plt.plot(data_1[3, :], label='X-axis')
-    plt.plot(data_1[4, :], label='Y-axis')
-    plt.plot(data_1[5, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title_1]} - Cleaned Gyroscope')
-    plt.xlabel('Sample')
-    plt.ylabel('Rotation')
-    plt.grid()
-    plt.legend()
-
-    # Row 4: Cleaned Gyroscope 2 (data_3)
-    plt.subplot(4, 2, 8)
-    plt.plot(data_3[3, :], label='X-axis')
-    plt.plot(data_3[4, :], label='Y-axis')
-    plt.plot(data_3[5, :], label='Z-axis')
-    plt.title(f'{activity_mapping[title_2]} - Cleaned Gyroscope')
-    plt.xlabel('Sample')
-    plt.ylabel('Rotation')
-    plt.grid()
-    plt.legend()
-
-    plt.tight_layout()
-    plt.show()
-
-##########################################################################################
-
-def plot_captured_signals(data, data_1, data_3, title, title_1, title_2, activity_mapping):
+# plot original signal and its 2 extracted parts, first two are accelerometer and last two rows are gyroscope 
+def plot_extracted_signals(data, data_1, data_3, title, title_1, title_2, activity_mapping):
     plt.figure(figsize=(15, 12))
 
     # Row 1: Original Accelerometer
