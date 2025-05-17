@@ -707,7 +707,7 @@ def keep_from_peak(data_list, window_size):
 ###################################        Plot Functions        ###################################
 
 # plot 2 signals, first two are accelerometer and last two are gyroscope
-def plot_signals(data, data_2, title, title_1, title_2, activity_mapping):
+def plot_2signals(data, data_2, title, title_1, title_2, activity_mapping):
     
     plt.figure(figsize=(15, 10))
 
@@ -837,3 +837,24 @@ def plot_extracted_signals(data, data_1, data_3, title, title_1, title_2, activi
 
 ##########################################################################################
 
+# plot custom number of data
+def plot_signals(data_list, title):
+    n_plots = len(data_list)
+
+    for i in range(1, n_plots + 1):
+        data = data_list[i]
+        plt.figure(figsize=(5 * n_plots, 10))
+
+        plt.subplot(n_plots, 1, i)
+        plt.plot(data[0, :], lable='X-axis')
+        plt.plot(data[1, :], label='Y-axis')
+        plt.plot(data[2, :], label='Z-axis')
+        plt.title(f'Signal {i} Accelerometer')
+        plt.xlabel('Sample')
+        plt.ylabel('Value')
+        plt.grid()
+        plt.legend()
+    
+    plt.suptitle(f'{title}', fontsize=16)
+    plt.tight_layout(rect=[0, 0.03, 1, 0.98])
+    plt.show()
