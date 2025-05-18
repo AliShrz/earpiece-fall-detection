@@ -603,14 +603,17 @@ def idle_remover(data_list, window_size, scale, mode):    # modes: 'acc', 'gyro'
         else:
             cleaned_signal = np.empty((6, 0))
 
-        print(f"Signal {i+1}: Original shape = {signal.shape}, Cleaned shape = {cleaned_signal.shape}")
+        # print(f"Signal {i+1}: Original shape = {signal.shape}, Cleaned shape = {cleaned_signal.shape}")
         all_cleaned_data.append(cleaned_signal)
 
+    min_length = min(signal.shape[1] for signal in all_cleaned_data)
+    max_length = max(signal.shape[1] for signal in all_cleaned_data)
+    print(f"{len(all_cleaned_data)} files processed, Min length: {min_length}, Max length: {max_length}")
     return all_cleaned_data
 
 ##########################################################################################
 
-def movement_parts_extraction(data_list, window_size, gyro_threshold, use_window=True):
+def movement_parts_extraction_2(data_list, window_size, gyro_threshold, use_window=True):
     """
     Extract two movement parts from gyroscope signal using a threshold on combined axis values.
 
@@ -672,8 +675,90 @@ def movement_parts_extraction(data_list, window_size, gyro_threshold, use_window
 
         new_data_list_1.append(cleaned_signal_1)
         new_data_list_2.append(cleaned_signal_2)
+    
+    min_length1 = min(signal.shape[1] for signal in new_data_list_1)
+    max_length1 = max(signal.shape[1] for signal in new_data_list_1)
+    min_length2 = min(signal.shape[1] for signal in new_data_list_2)
+    max_length2 = max(signal.shape[1] for signal in new_data_list_2)
+    print(f"{len(new_data_list_1)} files processed, Min length: {min_length1}, Max length: {max_length1}"
+          f"\n{len(new_data_list_2)} files processed, Min length: {min_length2}, Max length: {max_length2}")
+    return new_data_list_1, new_data_list_2
+
+def movement_parts_extraction(data_list, window_size, threshold, use_window=True, sensor='gyro'):
+    """
+    Extract two movement parts from accelerometer or gyroscope signal using a threshold on combined axis values.
+
+    Parameters:
+        data_list: list of np.ndarray of shape (6, N)
+        window_size: int - size of the sliding window
+        threshold: float - threshold to detect movement (0 to 1, applied on normalized signal)
+        use_window: bool - if True, uses windowed average; if False, uses per-sample values
+        sensor: str - 'gyro' or 'acc' to select which signal to base detection on
+
+    Returns:
+        new_data_list_1, new_data_list_2: list of np.ndarray (first and second movement parts)
+    """
+    if sensor not in ['gyro', 'acc']:
+        raise ValueError("sensor must be 'gyro' or 'acc'")
+
+    new_data_list_1 = []
+    new_data_list_2 = []
+
+    for signal in data_list:
+        # Select accelerometer or gyroscope data
+        selected = signal[3:6, :] if sensor == 'gyro' else signal[0:3, :]
+
+        # Combine axis absolute values
+        combined = np.abs(selected[0]) + np.abs(selected[1]) + np.abs(selected[2])
+
+        # Normalize using min and max
+        s_min = np.min(combined)
+        s_max = np.max(combined)
+        normalized = (combined - s_min) / (s_max - s_min + 1e-8)
+
+        start_1 = end_1 = start_2 = end_2 = None
+        state = 0
+        N = signal.shape[1]
+
+        for j in range(0, N - window_size + 1):
+            value = np.mean(normalized[j:j + window_size]) if use_window else normalized[j]
+
+            if state == 0 and value > threshold:
+                start_1 = j
+                state = 1
+            elif state == 1 and value <= threshold:
+                if j - start_1 > window_size:
+                    end_1 = j + window_size
+                    state = 2
+            elif state == 2 and value > threshold:
+                start_2 = j
+                state = 3
+            elif state == 3 and value <= threshold:
+                if j - start_2 > window_size:
+                    end_2 = j + window_size
+                    break
+
+        # Finalize
+        if state == 3 and end_2 is None:
+            end_2 = N
+        elif state == 1:
+            end_1 = N
+
+        cleaned_signal_1 = signal[:, start_1:end_1] if start_1 is not None and end_1 is not None else np.empty((6, 0))
+        cleaned_signal_2 = signal[:, start_2:end_2] if start_2 is not None and end_2 is not None else np.empty((6, 0))
+
+        new_data_list_1.append(cleaned_signal_1)
+        new_data_list_2.append(cleaned_signal_2)
+
+    # Print min/max lengths
+    lengths1 = [s.shape[1] for s in new_data_list_1]
+    lengths2 = [s.shape[1] for s in new_data_list_2]
+    print(f"{len(new_data_list_1)} files processed using {sensor.upper()}"
+          f" \nMin1: {min(lengths1)}, Max1: {max(lengths1)}"
+          f" \nMin2: {min(lengths2)}, Max2: {max(lengths2)}")
 
     return new_data_list_1, new_data_list_2
+
 
 ##########################################################################################
 
@@ -700,8 +785,8 @@ def keep_from_peak(data_list, window_size):
         cleaned = signal[:, start:end]
         all_cleaned_data.append(cleaned)
         
-        print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
-    
+        #print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
+    print(f"{len(all_cleaned_data)} files processed,")
     return all_cleaned_data
 
 ###################################        Plot Functions        ###################################
@@ -838,23 +923,43 @@ def plot_extracted_signals(data, data_1, data_3, title, title_1, title_2, activi
 ##########################################################################################
 
 # plot custom number of data
-def plot_signals(data_list, title):
-    n_plots = len(data_list)
+def plot_signals(data_list, title, mode):
+    if mode == "both":
+        col = 2
+    elif mode == "acc" or mode == "gyro":
+        col = 1
+    else:
+        raise ValueError("Invalid mode. Use 'acc', 'gyro', or 'both'.")
 
-    for i in range(1, n_plots + 1):
-        data = data_list[i]
-        plt.figure(figsize=(5 * n_plots, 10))
+    n_rows = len(data_list)
+    plt.figure(figsize=(10 * col, 4 * n_rows))
 
-        plt.subplot(n_plots, 1, i)
-        plt.plot(data[0, :], lable='X-axis')
-        plt.plot(data[1, :], label='Y-axis')
-        plt.plot(data[2, :], label='Z-axis')
-        plt.title(f'Signal {i} Accelerometer')
-        plt.xlabel('Sample')
-        plt.ylabel('Value')
-        plt.grid()
-        plt.legend()
-    
+    plot_index = 1
+    for i, data in enumerate(data_list):
+        if mode in ['acc', 'both']:
+            plt.subplot(n_rows, col, plot_index)
+            plt.plot(data[0, :], label='X-axis')
+            plt.plot(data[1, :], label='Y-axis')
+            plt.plot(data[2, :], label='Z-axis')
+            plt.title(f'Signal {i+1} Accelerometer')
+            plt.xlabel('Sample')
+            plt.ylabel('Value')
+            plt.grid()
+            plt.legend()
+            plot_index += 1
+
+        if mode in ['gyro', 'both']:
+            plt.subplot(n_rows, col, plot_index)
+            plt.plot(data[3, :], label='X-axis')
+            plt.plot(data[4, :], label='Y-axis')
+            plt.plot(data[5, :], label='Z-axis')
+            plt.title(f'Signal {i+1} Gyroscope')
+            plt.xlabel('Sample')
+            plt.ylabel('Value')
+            plt.grid()
+            plt.legend()
+            plot_index += 1
+
     plt.suptitle(f'{title}', fontsize=16)
-    plt.tight_layout(rect=[0, 0.03, 1, 0.98])
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     plt.show()
