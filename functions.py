@@ -759,6 +759,108 @@ def movement_parts_extraction(data_list, window_size, threshold, use_window=True
 
     return new_data_list_1, new_data_list_2
 
+##########################################################################################
+
+def extract_from_high_amp_segments(
+    data_list, window_size, step_size, amp_scale, min_gap, before, after, sensor_type='acc'
+):
+    """
+    For each signal in data_list, extract up to two segments where the peak-to-peak amplitude
+    is above a threshold (relative to max). Segments are separated by at least `min_gap`.
+
+    Parameters:
+        data_list: list of np.ndarray, each of shape (6, n_samples)
+        window_size: int, size of each segment to extract
+        step_size: int, step size for sliding window
+        amp_scale: float, threshold as a fraction of max peak-to-peak value
+        min_gap: int, minimum number of samples between two selected segments
+        before: int, number of samples before peak to include
+        after: int, total number of samples in the segment
+        sensor_type: str, 'acc' or 'gyro' to select which sensor to use for peak detection
+
+    Returns:
+        list_1: list of first high-amplitude segments
+        list_2: list of second high-amplitude segments (or empty if only one segment found)
+    """
+    list_1 = []
+    list_2 = []
+
+    # Choose axes based on sensor_type
+    if sensor_type == 'acc':
+        selected_data = [signal[0:3, :] for signal in data_list]  # Rows 0–2: Accelerometer
+    elif sensor_type == 'gyro':
+        selected_data = [signal[3:6, :] for signal in data_list]  # Rows 3–5: Gyroscope
+    else:
+        raise ValueError("sensor_type must be 'acc' or 'gyro'")
+
+    # Compute peak-to-peak amplitude features
+    # selected_features = max_peak_to_peak_amp(selected_data, window_size, step_size)
+    # compute Compute Standard Deviation Magnitude
+    selected_features = standard_deviation_magnitude(selected_data, window_size, step_size)
+
+    for signal_idx, signal in enumerate(data_list):
+        features = selected_features[signal_idx]
+        max_val = max(features)
+        threshold = amp_scale * max_val
+
+        selected_segments = []
+        last_added_index = -min_gap  # so first one can always be added
+
+        for i, value in enumerate(features):
+            if value >= threshold:
+                segment_start = i * step_size - before
+                segment_end = segment_start + after
+
+                if segment_start < 0 :
+                    continue  # skip invalid windows
+                if segment_end > signal.shape[1]:
+                    segment_end = signal.shape[1]
+
+                # Avoid overlap by checking distance to last segment
+                if segment_start - last_added_index >= min_gap:
+                    selected_segments.append(signal[:, segment_start:segment_end])
+                    last_added_index = segment_start
+
+            if len(selected_segments) == 2:
+                break
+
+        # Append segments or empty arrays if not enough were found
+        if len(selected_segments) >= 1:
+            list_1.append(selected_segments[0])
+        else:
+            list_1.append(np.empty((6, 0)))
+
+        if len(selected_segments) >= 2:
+            list_2.append(selected_segments[1])
+        else:
+            list_2.append(np.empty((6, 0)))
+
+    lengths1 = [s.shape[1] for s in list_1]
+    lengths2 = [s.shape[1] for s in list_2]
+    print(f"{len(list_1)} files processed using scale: {amp_scale}"
+          f" \nMin1: {min(lengths1)}, Max1: {max(lengths1)}"
+          f" \nMin2: {min(lengths2)}, Max2: {max(lengths2)}")
+
+    return list_1, list_2
+
+##########################################################################################
+
+def length_status(data_list, sub_list_1, sub_list_2, num_1, num_2):
+    list_1 = []
+    list_2 = []
+
+    for i in range(len(data_list)):
+        list_1.append(len(sub_list_1[i][0,:]))
+        list_2.append(len(sub_list_2[i][0,:]))
+    list_1 = np.array(list_1)
+    list_2 = np.array(list_2)
+
+    print(list_1,"\n", "----", "\n", list_2)
+
+    indices_1 = [i for i, signal in enumerate(sub_list_1) if signal.shape[1] == num_1]
+    indices_2 = [i for i, signal in enumerate(sub_list_2) if signal.shape[1] == num_2]
+    print(f"\nindices of list 1 = {indices_1}")
+    print(f"\nindices of list 2 = {indices_2}")
 
 ##########################################################################################
 
@@ -786,8 +888,75 @@ def keep_from_peak(data_list, window_size):
         all_cleaned_data.append(cleaned)
         
         #print(f"Signal {i+1}: Original shape = {signal.shape}, Kept shape = {cleaned.shape}")
-    print(f"{len(all_cleaned_data)} files processed,")
+    # print(f"{len(all_cleaned_data)} files processed,")
+    min_length1 = min(signal.shape[1] for signal in all_cleaned_data)
+    max_length1 = max(signal.shape[1] for signal in all_cleaned_data)
+    print(f"{len(all_cleaned_data)} files processed \nMin length: {min_length1} \nMax length: {max_length1}")
     return all_cleaned_data
+
+##########################################################################################
+
+def split_and_center(data_list, length):
+    list_1 = []
+    list_2 = []
+    start_1 = end_1 = start_2 = end_2 = None
+    for i, signal in enumerate(data_list):
+        data_length = signal.shape[1]  # Use .shape[1] instead of len(signal)
+        # signal = data_list[i]
+        # data_length = len(signal)
+        if data_length > length * 2:
+            start_1 = (data_length // 2 - length) // 2
+            end_1 = start_1 + length
+            start_2 = end_1 + (start_1 * 2)
+            end_2 = start_2 + length
+        else:
+            start_1 = 0
+            end_1 = length
+            end_2 = data_length
+            start_2 = end_2 - length
+            # print(f"length of {i} is smaller than {length}")
+        
+        cleaned_signal_1 = signal[:, start_1:end_1] if start_1 is not None and end_1 is not None else np.empty((6, 0))
+        cleaned_signal_2 = signal[:, start_2:end_2] if start_2 is not None and end_2 is not None else np.empty((6, 0))
+        list_1.append(cleaned_signal_1)
+        list_2.append(cleaned_signal_2)
+
+    min_length1 = min(signal.shape[1] for signal in list_1)
+    max_length1 = max(signal.shape[1] for signal in list_1)
+    min_length2 = min(signal.shape[1] for signal in list_2)
+    max_length2 = max(signal.shape[1] for signal in list_2)
+    print(f"{len(list_1)} files processed, Min length: {min_length1}, Max length: {max_length1}"
+          f"\n{len(list_2)} files processed, Min length: {min_length2}, Max length: {max_length2}")
+    return list_1, list_2
+
+##########################################################################################
+
+def length_fix(data_list, length):
+    fixed_list = []
+    for i, signal in enumerate(data_list):
+        data_length = signal.shape[1]
+        if data_length < length:
+            pad_width = length - data_length
+            left_pad = pad_width // 2
+            right_pad = pad_width - left_pad
+
+            # Get edge values
+            left_vals = signal[:, 0:1]
+            right_vals = signal[:, -1:]
+
+            # Pad using edge values instead of zeros
+            left_padding = np.repeat(left_vals, left_pad, axis=1)
+            right_padding = np.repeat(right_vals, right_pad, axis=1)
+            signal = np.concatenate([left_padding, signal, right_padding], axis=1)
+        else:
+            signal = signal[:, :length]
+
+        fixed_list.append(signal)
+
+    min_length = min(signal.shape[1] for signal in fixed_list)
+    max_length = max(signal.shape[1] for signal in fixed_list)
+    print(f"{len(fixed_list)} files processed, Min length: {min_length}, Max length: {max_length}")
+    return fixed_list
 
 ###################################        Plot Functions        ###################################
 
