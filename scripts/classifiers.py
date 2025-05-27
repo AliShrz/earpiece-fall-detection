@@ -28,17 +28,8 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import SimpleImputer
 from sklearn.metrics import ConfusionMatrixDisplay
 
-from scripts.TsCaptum.explainers import Shapley_Value_Sampling as SHAP
 
-def explain_model(model, X, y, chunks, preprocess=True, normalise=True):
-    X = X[:, np.newaxis, :]
-    if X.shape[0]==1:
-        print("Found 1 sample. Doubling it to avoid errors")
-        X = np.vstack([X, X])
-        y = np.vstack([y, y]).flatten()
-    shap = SHAP(model)
-    exp = shap.explain(X, labels=y, n_segments=chunks, normalise=normalise)
-    return exp
+
 
 def get_models(type=None, models_subset=None):
     all_models = {
@@ -309,8 +300,6 @@ def cross_dataset_eval(simulated, real):
     return pd.concat(summary, ignore_index=True)
 
 
-
-
 def get_sample_attributions(clf, X_test, y_test, c=28, normalise=True, n=2):
     y_pred = clf.predict(X_test)
     true_falls = np.logical_and(y_test==1, y_pred==1)
@@ -340,42 +329,6 @@ def get_sample_attributions(clf, X_test, y_test, c=28, normalise=True, n=2):
 def scale_arr(arr):
     scaler = MinMaxScaler(feature_range=(-1,1))
     return scaler.fit_transform(arr.reshape(-1,1)).flatten()
-
-# def plot_sample_with_attributions(attr_dict):
-#     titles = ['True Falls', 'False Alarms', 'True ADLs', 'Misses']
-#     fig, axs = plt.subplots(5, 4, figsize=(10, 10), dpi=400,
-#                             sharey='row', sharex='col', layout='constrained')
-#     plt.rcParams.update({'font.size': 10})
-#     cmap = plt.get_cmap('coolwarm')
-#     attributions = copy.deepcopy(attr_dict)
-#     for i, (model_name, exps) in enumerate(attributions.items()):
-#         axs[i,0].set_ylabel(model_name)
-#         for e, exp in enumerate(exps):
-#             ax = axs[i,e]
-#             if i==0:
-#                 ax.set_title(titles[e])
-#             y = scale_arr(exp['sample'])
-#             x = np.arange(len(y))
-#             c = exp['attr'].flatten()
-#             ax.plot(c, linestyle=':', label='attribution profile', alpha=0.3)
-#             # Normalize the color values
-#             norm = mcolors.Normalize(vmin=-1, vmax=1)
-#             for j in range(len(x)-1):
-#                 ax.plot(x[j:j+2], y[j:j+2], color=cmap(norm(c[j])), linewidth=1.5, label='normalised sample' if j==0 else None)
-#             ticks_loc = ax.get_xticks().tolist()
-#             ax.xaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
-#             ax.set_xticklabels([i//100 for i in ticks_loc])
-#             # ax.grid(which='both', axis='x')     
-#     axs[1,3].legend()
-#     fig.supylabel('Attribution score')
-#     # Adding color bar to show the color scale
-#     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
-#     sm.set_array([])
-#     cax = plt.axes((1.01, 0.05, 0.015, 0.92))
-#     plt.colorbar(sm, cax=cax)
-#     fig.supxlabel('Time in seconds')
-#     plt.savefig('figs/model_explanation.pdf', bbox_inches='tight')
-#     plt.show()
 
 def plot_sample_with_attributions(attr_dict):
     titles = ['True Fall', 'False Alarm', 'True ADL', 'Missed Fall']
@@ -412,3 +365,117 @@ def plot_sample_with_attributions(attr_dict):
         # sns.despine()
         plt.savefig(f'figs/{model_name}_explanation.pdf', bbox_inches='tight')
         plt.show()
+
+
+
+def plot_confusion_matrices(results, y_train, y_test):
+    """Plot confusion matrices for train and test sets"""
+    n_models = len(results)
+    fig, axes = plt.subplots(n_models, 2, figsize=(10, 5*n_models))
+    
+    if n_models == 1:
+        axes = axes.reshape(1, -1)
+    
+    for idx, (name, result) in enumerate(results.items()):
+        # Training confusion matrix
+        cm_train = confusion_matrix(y_train, result['train_pred'])
+        sns.heatmap(cm_train, annot=True, fmt='d', ax=axes[idx, 0],
+                   xticklabels=['ADL', 'Fall'], yticklabels=['ADL', 'Fall'])
+        axes[idx, 0].set_title(f'{name} - Training Set')
+        axes[idx, 0].set_xlabel('Predicted')
+        axes[idx, 0].set_ylabel('Actual')
+        
+        # Test confusion matrix
+        cm_test = confusion_matrix(y_test, result['test_pred'])
+        sns.heatmap(cm_test, annot=True, fmt='d', ax=axes[idx, 1],
+                   xticklabels=['ADL', 'Fall'], yticklabels=['ADL', 'Fall'])
+        axes[idx, 1].set_title(f'{name} - Test Set')
+        axes[idx, 1].set_xlabel('Predicted')
+        axes[idx, 1].set_ylabel('Actual')
+    
+    plt.tight_layout()
+    plt.show()
+
+def plot_learning_curves(models, X_train, y_train, cv=5):
+    """Plot learning curves to visualize overfitting"""
+    fig, axes = plt.subplots(1, len(models), figsize=(6*len(models), 5))
+    
+    if len(models) == 1:
+        axes = [axes]
+    
+    for idx, (name, model) in enumerate(models.items()):
+        train_sizes, train_scores, val_scores = learning_curve(
+            model, X_train, y_train, cv=cv, n_jobs=-1,
+            train_sizes=np.linspace(0.1, 1.0, 10))
+        
+        train_mean = np.mean(train_scores, axis=1)
+        train_std = np.std(train_scores, axis=1)
+        val_mean = np.mean(val_scores, axis=1)
+        val_std = np.std(val_scores, axis=1)
+        
+        axes[idx].plot(train_sizes, train_mean, 'o-', color='blue', label='Training score')
+        axes[idx].fill_between(train_sizes, train_mean - train_std, train_mean + train_std, alpha=0.1, color='blue')
+        
+        axes[idx].plot(train_sizes, val_mean, 'o-', color='red', label='Cross-validation score')
+        axes[idx].fill_between(train_sizes, val_mean - val_std, val_mean + val_std, alpha=0.1, color='red')
+        
+        axes[idx].set_title(f'{name} Learning Curve')
+        axes[idx].set_xlabel('Training Set Size')
+        axes[idx].set_ylabel('Accuracy Score')
+        axes[idx].legend(loc='best')
+        axes[idx].grid(True)
+    
+    plt.tight_layout()
+    plt.show()
+
+def analyze_feature_importance(results):
+    """Analyze and plot feature importance"""
+    fig, axes = plt.subplots(1, len(results), figsize=(8*len(results), 6))
+    
+    if len(results) == 1:
+        axes = [axes]
+    
+    for idx, (name, result) in enumerate(results.items()):
+        model = result['model']
+        if hasattr(model, 'feature_importances_'):
+            importances = model.feature_importances_
+            indices = np.argsort(importances)[::-1][:20]  # Top 20 features
+            
+            axes[idx].bar(range(len(indices)), importances[indices])
+            axes[idx].set_title(f'{name} - Top 20 Feature Importances')
+            axes[idx].set_xlabel('Feature Index')
+            axes[idx].set_ylabel('Importance')
+            axes[idx].set_xticks(range(len(indices)))
+            axes[idx].set_xticklabels(indices, rotation=45)
+    
+    plt.tight_layout()
+    plt.show()
+
+# Main execution
+def full_model_analysis(dataset, df=None):
+    """Complete analysis pipeline"""
+    
+    # 1. Train models and check overfitting
+    print("=== TRAINING MODELS ===")
+    results, (X_train, y_train, X_test, y_test) = train_and_analyze_models(dataset, df)
+    
+    # 2. Plot confusion matrices
+    print("\n=== CONFUSION MATRICES ===")
+    plot_confusion_matrices(results, y_train, y_test)
+    
+    # 3. Plot learning curves for overfitting analysis
+    print("\n=== LEARNING CURVES ===")
+    models_dict = {name: result['model'] for name, result in results.items()}
+    plot_learning_curves(models_dict, X_train, y_train)
+    
+    # 4. Feature importance analysis
+    print("\n=== FEATURE IMPORTANCE ===")
+    analyze_feature_importance(results)
+    
+    # 5. Print detailed classification reports
+    print("\n=== DETAILED CLASSIFICATION REPORTS ===")
+    for name, result in results.items():
+        print(f"\n{name} - Test Set Classification Report:")
+        print(classification_report(y_test, result['test_pred'], target_names=['ADL', 'Fall']))
+    
+    return results

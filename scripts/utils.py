@@ -20,7 +20,7 @@ from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.preprocessing import scale
 from torch import layout
 from torch.utils import data
-from scripts import farseeing, fallalld, sisfall
+
 
 
 # apply threshold to positive probabilities to create labels
@@ -197,12 +197,9 @@ def resample_to(arr, old_f, new_f=100):
     return new_arr
 
 def get_freq(dataset):
-    if dataset==farseeing:
-        return 100
-    elif dataset==fallalld:
-        return 238
-    else:
-        return 200
+
+
+    return 200
 
 def train_test_subjects_split(dataset, test_size=0.3, random_state=0, visualize=False, clip=False, new_freq=None, split=True, show_test=False):
     df = dataset.load(clip=clip)
