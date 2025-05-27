@@ -7,7 +7,6 @@ from scripts import utils
 from sklearn.model_selection import train_test_split
 
 def load(clip=False):
-    # sisfall = pd.read_pickle(r'data/SisFall.pkl')
     sisfall = pd.read_pickle(r'DataSet/SisFall_MMA8451Q.pkl').reset_index().drop(columns=['index'])
     sisfall.drop(columns=['TrialNo'], inplace=True)
     sisfall['accel_g'] = sisfall['Acc'].apply(get_g)

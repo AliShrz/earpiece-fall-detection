@@ -267,15 +267,3 @@ def full_model_analysis(dataset, df=None, handle_nans='impute', imputation_strat
     
     return results
 
-# Usage examples:
-# Option 1: Impute missing values with mean (recommended)
-# results = full_model_analysis(sisfall, sisfall_df, handle_nans='impute', imputation_strategy='mean')
-
-# Option 2: Drop rows with missing values
-# results = full_model_analysis(sisfall, sisfall_df, handle_nans='drop')
-
-# Option 3: Use HistGradientBoostingClassifier that handles NaN natively
-# results = full_model_analysis(sisfall, sisfall_df, handle_nans='use_histgb')
-
-# Option 4: Use KNN imputation (more sophisticated)
-# results = full_model_analysis(sisfall, sisfall_df, handle_nans='impute', imputation_strategy='knn')
