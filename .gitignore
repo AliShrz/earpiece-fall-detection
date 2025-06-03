@@ -1,3 +1,5 @@
 DataSet
 unzipped_dataset
 *.csv
+datasets
+__pycache__
