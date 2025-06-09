@@ -369,7 +369,7 @@ def transform_uma_to_sisfall_format(uma_files, activity_mapping=None):
             # Create the row in SisFall format
             transformed_row = {
                 'SubjectID': subject_id,
-                'Activity': activity_name,
+                'Activity': activity_num,
                 'Duration (s)': round(duration, 1),
                 'Acc': acc_data,
                 'Target': target,

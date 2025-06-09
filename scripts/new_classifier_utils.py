@@ -250,10 +250,6 @@ def full_model_analysis(dataset, df=None, handle_nans='impute', imputation_strat
     print("\n=== CONFUSION MATRICES ===")
     plot_confusion_matrices(results, y_train, y_test)
     
-    # 3. Plot learning curves for overfitting analysis
-    print("\n=== LEARNING CURVES ===")
-    models_dict = {name: result['model'] for name, result in results.items()}
-    plot_learning_curves(models_dict, X_train, y_train)
     
     # 4. Feature importance analysis
     print("\n=== FEATURE IMPORTANCE ===")
@@ -265,5 +261,5 @@ def full_model_analysis(dataset, df=None, handle_nans='impute', imputation_strat
         print(f"\n{name} - Test Set Classification Report:")
         print(classification_report(y_test, result['test_pred'], target_names=['ADL', 'Fall']))
     
-    return results
+    return results,(X_train, y_train, X_test, y_test)
 
