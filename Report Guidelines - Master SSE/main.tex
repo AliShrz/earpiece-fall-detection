@@ -35,12 +35,35 @@ This document provides instructions on how to prepare a report about your projec
 
 \section{Introduction}
 
-\noindent The project report is your final task in our journey to complete your project. It serves as a comprehensive documentation of your project work, highlighting your understanding of both the theoretical and practical aspects of design, implementation of your solution and analysis of the obtained results. 
+\noindent Falls among elderly individuals are a major cause of injury, hospitalization, and death, posing a serious burden on healthcare systems worldwide[1]. Wearable sensors, particularly smartwatches, are emerging as an effective platform for continuous fall detection due to their accessibility, portability, and integration with smartphones[2]. Smartwatches typically incorporate Inertial Measurement Units (IMUs) that include accelerometers and gyroscopes capable of capturing fine-grained motion data in real time[3].
+
+However, fall detection remains challenging due to the diversity of Activities of Daily Living (ADLs) and the transient nature of fall events, which often resemble benign motions such as sitting or jumping[4]. 
+
+Recent research has proposed a range of deep learning-based models that aim to improve detection accuracy by learning robust motion patterns from raw sensor data, including CNNs, Transformers, and hybrid models[5][6]. In addition to accuracy, energy efficiency and real-time inference are key requirements for embedded AI deployment on wearables, motivating the use of quantization, pruning, and knowledge distillation[7][8].
+
+This study presents a two-stage fall detection system optimized for deployment on smartwatches using 6-axis IMU data, combining lightweight candidate filtering with high-precision validation, and employing compression techniques to maintain high accuracy with low latency.
+
 
 Ensure that all team members contribute equally to the writing process, reflecting the collaborative effort invested in the project. The report should demonstrate your ability to design, implement, test, and evaluate the results of your project, presenting your findings in a professional format.
 
 
 % Instructions Section
+\section{Literature Review}
+\noindent 1. Sensor Principles and Data Acquisition
+
+Smartwatches typically include 6-axis Inertial Measurement Units (IMUs)—three-axis accelerometers (measuring linear acceleration: $A_x$, $A_y$, $A_z$) and three-axis gyroscopes (measuring angular velocity: $G_x$, $G_y$, $G_z$). These sensors continuously track the motion and orientation of the wearer's wrist.
+
+Falls are characterized by:
+
+•	A sudden increase in total acceleration (commonly seen as a spike in Signal Magnitude Vector, or SMV).
+
+•	A significant angular shift or tilt (detected through gyroscope data and derived orientation).
+
+•	A brief inactivity phase (after impact) that is atypical of most ADLs.
+
+These signals are non-stationary (i.e., their statistical properties change over time), making traditional signal processing methods less effective. Therefore, recent research explores time-frequency transforms and deep learning approaches that capture both the transient and sequential nature of falls.
+
+
 \section{Formatting Requirements}
 
 \noindent You are free to write the report in \LaTeX\ or Word (a template is available for \LaTeX\ in Overleaf\footnote{\url{https://www.overleaf.com}}).  The report should adhere to the IEEE conference paper format, which is a two-column layout. The official IEEE template can be downloaded from the IEEE page\footnote{\url{https://www.ieee.org/conferences/publishing/templates.html}}. Following the formatting instructions in the template, all formatting shall be done automagically. Note, this guideline is also written in the IEEE template style. 
@@ -91,8 +114,8 @@ Arduino IDE, MicroPython, C/C++ SDK \\ \hline
     \item \textbf{Abstract}: A brief summary of your report, not exceeding 200 words.  May be the last part to be written. The abstract should \underline{not} contain an introduction to the topic.
     \item \textbf{Keywords}: List 3–5 keywords that best describe your robot design and programming.
     \item \textbf{Introduction, Motivation}: Describe the background and importance of the topic, including relevant statistics and a specific description of the problem that you are addressing and the current situation. Context of company/research institute is important. List the requirements and possible ethical and environmental considerations. It may also be advisable to place a teaser figure (like Fig. \ref{comic}) right at the beginning of the paper, so that the reader becomes familiar with the topic more quickly. 
-     \item \textbf{Literature Review}: Here you describe a few related works and compare state-of-the-art methods, including quantitative comparisons for key methods. Opportunities for improvement of methods or application are identified. Note that all literature used is referenced and listed at the end of the paper.
-     \item \textbf{Conceptual Model}: Give an overview of the proposed solutions, list the corresponding requirements, and compare variants. Include a graphical overview of solution presented, like Figure \ref{schematic}. State the goal or the (S.M.A.R.T.) Research Question, and make sure to prioritize the sub-goals or sub-questions. 
+    \item \textbf{Literature Review}: Here you describe a few related works and compare state-of-the-art methods, including quantitative comparisons for key methods. Opportunities for improvement of methods or application are identified. Note that all literature used is referenced and listed at the end of the paper.
+    \item \textbf{Conceptual Model}: Give an overview of the proposed solutions, list the corresponding requirements, and compare variants. Include a graphical overview of solution presented, like Figure \ref{schematic}. State the goal or the (S.M.A.R.T.) Research Question, and make sure to prioritize the sub-goals or sub-questions. 
     \item \textbf{Design}: Step-by-step approach to answer the Research Question or achieve the goal. Describe each step with evaluation/validation methods. Ethical/Environmental aspects are taken into consideration. Include a section on how to validate results. It is always a good idea to include figures to help with the understanding.
     \item \textbf{Results}: This section provides experimental data with a qualitative analysis, supported by illustrations. Results should be presented in the same order as the design. Figures must be cited and explained in the text, and must have captions with a concise description. Graphs must contain proper scale and units. 
     \item \textbf{Discussion}: Interpret and analyze your results, compare them to existing literature, explain unexpected results, acknowledged limitations of the setup.

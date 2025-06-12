@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1745407632.66936 "/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex" "main.pdf" "main" 1745407635.34553 0
-  "/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex" 1745407632 15303 547ea3ec103a61aae350662d6b76ea8a ""
+["pdflatex"] 1749740977.82746 "/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex" "main.pdf" "main" 1749740981.3568 0
+  "/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex" 1749740977 17439 3eb6c7934e3b4bfac1cf2f768c478a3d ""
   "/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2024/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -67,8 +67,8 @@
   "/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1732658802.26686 5467645 128b85b7cde5f5edc5cb7f1dd7ff8736 ""
   "/usr/local/texlive/2024/texmf-var/web2c/pdftex/pdflatex.fmt" 1732658581 8221441 af9572275e18e67a6cb9d1bef3743533 ""
   "/usr/local/texlive/2024/texmf.cnf" 1710266656 577 e590dabc9e28c5b61546e15f63eebcdf ""
-  "main.aux" 1745407635 2546 44d923725b4d21b0f853e7eeb5a8ab32 "pdflatex"
-  "main.tex" 1745407632 15303 547ea3ec103a61aae350662d6b76ea8a ""
+  "main.aux" 1749740981 2655 91c117a1115c8877a22a4d88072f4f41 "pdflatex"
+  "main.tex" 1749740977 17439 3eb6c7934e3b4bfac1cf2f768c478a3d ""
   "schematic.png" 1738648828 215518 87267d18fc14de3997342cf3ca602b3e ""
   "toasterpet.jpg" 1738648828 64950 250994ed7f2ab20b04ab0545192f8f79 ""
   (generated)

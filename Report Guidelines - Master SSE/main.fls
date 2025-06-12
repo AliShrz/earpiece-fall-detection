@@ -109,6 +109,10 @@ INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy9.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmr8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmmi8.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm
@@ -120,9 +124,6 @@ INPUT ./toasterpet.jpg
 OUTPUT main.pdf
 INPUT ./toasterpet.jpg
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmrc7t.tfm
-INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-INPUT /usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
@@ -140,6 +141,7 @@ INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmrc7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmb7t.vf
@@ -158,13 +160,13 @@ INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmb8r.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/courier/pcrr7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr8r.tfm
+INPUT ./schematic.png
+INPUT ./schematic.png
+INPUT ./schematic.png
+INPUT ./schematic.png
+INPUT ./schematic.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
-INPUT ./schematic.png
-INPUT ./schematic.png
-INPUT ./schematic.png
-INPUT ./schematic.png
-INPUT ./schematic.png
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/vf/adobe/times/ptmri7t.vf
 INPUT /usr/local/texlive/2024/texmf-dist/fonts/tfm/adobe/times/ptmri8r.tfm
