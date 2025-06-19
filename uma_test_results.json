@@ -1,0 +1,82 @@
+{
+  "accuracy": 0.3048780487804878,
+  "classification_report": {
+    "Fall": {
+      "precision": 0.3125,
+      "recall": 1.0,
+      "f1-score": 0.47619047619047616,
+      "support": 50.0
+    },
+    "Jogging": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 28.0
+    },
+    "Sitting": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 0.0
+    },
+    "Stairs": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 34.0
+    },
+    "Walking": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 52.0
+    },
+    "accuracy": 0.3048780487804878,
+    "macro avg": {
+      "precision": 0.0625,
+      "recall": 0.2,
+      "f1-score": 0.09523809523809523,
+      "support": 164.0
+    },
+    "weighted avg": {
+      "precision": 0.09527439024390244,
+      "recall": 0.3048780487804878,
+      "f1-score": 0.1451800232288037,
+      "support": 164.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      50,
+      0,
+      0,
+      0
+    ],
+    [
+      28,
+      0,
+      0,
+      0
+    ],
+    [
+      32,
+      0,
+      0,
+      0
+    ],
+    [
+      50,
+      0,
+      0,
+      0
+    ]
+  ],
+  "class_labels": [
+    "Fall",
+    "Jogging",
+    "Stairs",
+    "Walking"
+  ],
+  "feature_overlap_percentage": 100.0,
+  "test_size": 164
+}

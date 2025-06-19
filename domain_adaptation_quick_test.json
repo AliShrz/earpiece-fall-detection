@@ -1,0 +1,9 @@
+{
+  "baseline_accuracy": 0.3048780487804878,
+  "models_ready": 3,
+  "expected_improvements": {
+    "Domain-Robust": "Expected +5-15% improvement (domain-aware features)",
+    "Standard": "Expected +0-5% improvement (standard selection)",
+    "Conservative": "Expected +2-8% improvement (fewer, robust features)"
+  }
+}

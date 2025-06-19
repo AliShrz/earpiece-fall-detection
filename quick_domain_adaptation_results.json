@@ -1,0 +1,23 @@
+{
+  "baseline_uma_accuracy": 0.3048780487804878,
+  "approaches": {
+    "domain_robust": {
+      "sisfall_accuracy": 0.9553314121037464,
+      "selected_features": 400,
+      "robust_features": 800
+    },
+    "standard": {
+      "sisfall_accuracy": 0.9762247838616714,
+      "selected_features": 400
+    },
+    "conservative": {
+      "sisfall_accuracy": 0.9661383285302594,
+      "selected_features": 200
+    }
+  },
+  "dataset_info": {
+    "sisfall_train_size": 5552,
+    "sisfall_test_size": 1388,
+    "uma_sample_size": 107
+  }
+}
