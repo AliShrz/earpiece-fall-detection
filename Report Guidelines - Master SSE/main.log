@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  23 APR 2025 13:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  25 JUN 2025 21:32
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex"
-(/Volumes/Windows SD/Master SSE/Semester 2/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex
+**"/Volumes/Windows SD/Master SSE/Semester 2/GitHub/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex"
+(/Volumes/Windows SD/Master SSE/Semester 2/GitHub/earpiece-fall-detection/Report Guidelines - Master SSE/main.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
 (/usr/local/texlive/2024/texmf-dist/tex/latex/ieeetran/IEEEtran.cls
@@ -215,62 +215,77 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 33.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 46.
+(Font)              <7> on input line 48.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 46.
+(Font)              <8> on input line 48.
 <toasterpet.jpg, id=1, 853.1875pt x 761.84625pt>
 File: toasterpet.jpg Graphic file (type jpg)
 <use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 57.
+Package pdftex.def Info: toasterpet.jpg  used on input line 59.
 (pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 84.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 86.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
  <./toasterpet.jpg>]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 108.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 110.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [2]
 <schematic.png, id=16, 470.04408pt x 521.21124pt>
 File: schematic.png Graphic file (type png)
 <use schematic.png>
-Package pdftex.def Info: schematic.png  used on input line 170.
+Package pdftex.def Info: schematic.png  used on input line 172.
 (pdftex.def)             Requested size: 226.79846pt x 251.4908pt.
 
-Underfull \hbox (badness 3396) in paragraph at lines 215--218
+Underfull \hbox (badness 10000) in paragraph at lines 211--213
+[]\OT1/ptm/m/n/8 World Health Or-ga-ni-za-tion. (2021). Falls.
+ []
+
+
+Overfull \hbox (25.5281pt too wide) in paragraph at lines 211--213
+\OT1/pcr/m/n/8 https://www.who.int/news-room/fact-sheets/detail/falls 
+ []
+
+
+Underfull \hbox (badness 6625) in paragraph at lines 215--219
+[]\OT1/ptm/m/n/8 Patel, S., Park, H., Bon-ato, P., Chan, L., & Rodgers, M.
+ []
+
+[3 <./schematic.png>]
+Underfull \hbox (badness 3396) in paragraph at lines 233--236
 \OT1/ptm/m/n/8 2, Amer-i-can Math-e-mat-i-cal So-ci-ety (AMS), 1944, pp. 164-168.
  []
 
 
-Overfull \hbox (20.7281pt too wide) in paragraph at lines 215--218
+Overfull \hbox (20.7281pt too wide) in paragraph at lines 233--236
 \OT1/pcr/m/n/8 https://www.ams.org/journals/qam/1944-02-02/home.html 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--223
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
 []\OT1/ptm/m/n/8 Donald W. Mar-quardt, \OT1/ptm/m/it/8 An Al-go-rithm for Least-Squares
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--223
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
 \OT1/ptm/m/it/8 Es-ti-ma-tion of Non-lin-ear Pa-ram-e-ters\OT1/ptm/m/n/8 , SIAM Jour-nal on
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 219--223
+Underfull \hbox (badness 7291) in paragraph at lines 237--241
 \OT1/ptm/m/n/8 Ap-plied Math-e-mat-ics, vol. 11, no. 2, So-ci-ety for In-dus-trial
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 219--223
+Underfull \hbox (badness 10000) in paragraph at lines 237--241
 \OT1/ptm/m/n/8 and Ap-plied Math-e-mat-ics (SIAM), 1963, pp. 431-441.
  []
 
 
-Underfull \hbox (badness 5460) in paragraph at lines 225--226
+Underfull \hbox (badness 5460) in paragraph at lines 243--244
 []\OT1/ptm/m/n/8 Robot jokes, https://jokes.scoutlife.org/topics/robot-jokes/, ac-cessed
  []
 
@@ -285,25 +300,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[3 <./schematic.png>] (./main.aux)
+[4
+
+] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3958 strings out of 474116
- 65477 string characters out of 5743681
+ 3961 strings out of 474116
+ 65509 string characters out of 5743681
  1946187 words of memory out of 5000000
- 26298 multiletter control sequences out of 15000+600000
+ 26301 multiletter control sequences out of 15000+600000
  600878 words of font info for 108 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,8n,65p,997b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 57i,8n,65p,1004b,290s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (3 pages, 378438 bytes).
+Output written on main.pdf (4 pages, 381142 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
+ 67 PDF objects out of 1000 (max. 8388607)
+ 39 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
