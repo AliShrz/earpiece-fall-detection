@@ -5,6 +5,11 @@
 \usepackage{color}
 \usepackage{fancyhdr}
 \usepackage{amsmath}
+% \documentclass{article} % Or your document class
+\usepackage{array}     % Required for m{...} column type
+\usepackage{ragged2e}  % Optional, for better justification within m{} columns if needed
+
+
 \setcounter{topnumber}{8}
 \setcounter{bottomnumber}{8}
 \setcounter{totalnumber}{8}
@@ -117,6 +122,194 @@ Across these studies, a consistent pattern emerges: the most effective ML-based 
 
 Furthermore, the cited studies reinforce the point that high performance is possible even without gyroscopes, provided the features are informative enough and segmentation aligns with key signal events (e.g., fall peaks). This supports the practicality of our accelerometer-only setup using the LIS2DW12 sensor, despite its limitations in orientation sensing \cite{11,7}.
 
+
+\section{Methodology}
+
+This section presents the design process for our earpiece-based fall detection system. The methodology includes the conceptual model, data preparation, feature extraction, model design, and evaluation setup.
+
+\subsection{Conceptual Design Models}
+
+To explore reliable fall detection, we defined three fundamentally different detection models based on system requirements:
+\begin{enumerate}
+    \item \textbf{Threshold-based detection}: This model detects falls when a fixed threshold of acceleration magnitude is exceeded. Although simple and fast, it was prone to false alarms—especially when high-movement ADLs (e.g., jogging or stairs) created large peaks.
+    \item \textbf{Full ML-based detection}: A machine learning classifier continuously monitors all signals and classifies them into five categories: walking, jogging, stairs, sitting, and falls. This model relies on extracted features from raw sensor data to perform multi-class classification at every time window.
+    \item \textbf{Hybrid model (Threshold + ML)}: This approach combines a simple threshold-based trigger with a lightweight ML model. When the acceleration exceeds the threshold, the ADL classifier is activated to distinguish a fall from a high-intensity ADL. In other times, the ADL classifier runs at a lower frequency to label ongoing daily activities for context awareness.
+\end{enumerate}
+
+
+\begin{figure}[b]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{toasterpet.jpg}
+  \caption{Insert Conceptual Model Diagram here — Figure 1 \label{comic}\cite{joke}.}
+  \label{fig:comic}
+\end{figure}
+
+\subsection{Dataset and Preprocessing}
+Due to the lack of publicly available data for the commercial earpiece (LIS2DW12, 200 Hz, 3-axis accelerometer), we used the publicly available SisFall dataset, which contains labeled ADL and fall recordings at the same sampling rate (200 Hz). Our final model is trained using SisFall and evaluated both on test splits and unseen earpiece data collected in-house.
+
+Activity Selection
+
+From the SisFall dataset, we selected 5 activity types:
+\begin{itemize}
+    \item \textbf{ADLs}: walking, jogging, going up/down stairs, sitting
+    \item \textbf{Falls}: F01–F15, covering various fall scenarios
+\end{itemize}
+
+To increase similarity between SisFall and our earpiece signals:
+\begin{itemize}
+    \item We swapped X and Y axes to align sensor orientation.
+    \item We converted raw values to acceleration in g, considering ADXL345's configuration (±16g, 13-bit resolution).
+    \item Only accelerometer channels were used, to reflect our hardware constraints.
+\end{itemize}
+
+Signal Segmentation:
+
+In real-world fall detection, recognizing subtle differences between normal daily activities and falls is highly dependent on the quality of extracted signal segments. For this reason, we manually and algorithmically separated each activity from the raw recording sessions, instead of treating long continuous recordings as input. This approach was chosen based on three motivations:
+
+\begin{itemize}
+  \item \textbf{Improved Label Accuracy}: In public datasets like SisFall, activities are often recorded in sessions (e.g., walk for 30 seconds, then sit, then fall). Segmenting individual activities ensures the label of each window precisely corresponds to a single activity.
+  \item \textbf{Reducing Overlap/Noise}: Continuous sessions can contain transitions between activities or idle periods. Segmenting ensures that only the relevant portion is used in training, which reduces confusion during classification.
+  \item \textbf{Matching Real-Time Detection Constraints}: Our system will classify activities in short windows (4 seconds), so preparing the training data in the same structure improves model generalizability.
+\end{itemize}
+
+Segmentation Method
+
+\begin{itemize}
+  \item Window Size: We used fixed-length windows of 800 samples (4 seconds), balancing between capturing enough motion and maintaining quick detection latency.
+
+  \item Fall Activities: For fall segments, we applied a peak detection algorithm:
+
+  \begin{itemize}
+      \item Calculated the standard deviation magnitude across gyroscope axes using a sliding window.
+      \item Identified the highest activity zones (peaks).
+      \item Centered a 4-second window around the peak to capture the fall motion.
+  \end{itemize}
+
+  \item ADLs: For low-intensity or non-violent activities like sitting or walking:
+
+  \begin{itemize}
+      \item Used \texttt{idle\_remover()} to eliminate flat or static parts (e.g., sitting idle).
+      \item Applied \texttt{split\_and\_add()} or \texttt{split\_and\_center()} to generate clean windows from high-movement sections only.
+  \end{itemize}
+
+  \item Length Fixing: For segments shorter than 800, zero-padding or duplication was applied to preserve shape uniformity required by classifiers.
+\end{itemize}
+
+[Insert Figure: Gyro STD peak detection + window overlay on fall signal]
+
+
+\begin{figure}[b]
+  \centering
+  \includegraphics[width=0.7\columnwidth]{toasterpet.jpg}
+  \caption{[Insert Example Plot — Figure 2: Peak Detection on Fall Signal] \label{comic}\cite{joke}.}
+  \label{fig:comic}
+\end{figure}
+
+\subsection{Feature Extraction}
+
+We implemented two feature extraction functions, returning 14 and 33 features per window respectively. These features were selected based on previous research and domain-specific heuristics to capture key movement characteristics.
+
+\textbf{14-Feature Set}
+
+These features emphasize temporal movement patterns and were designed for lightweight classification:
+
+\begin{itemize}
+    \item \textbf{C1–C2}: Root Mean Square (RMS) of total and horizontal acceleration
+    \item \textbf{C3}: Peak-to-peak RMS magnitude
+    \item \textbf{C4–C5}: Orientation indicators (tilt angle, trunk angle)
+    \item \textbf{C6–C8}: Orientation change and jerk
+    \item \textbf{C9–C14}: Composite velocity energy, Signal Magnitude Area (SMA), and cumulative displacement
+\end{itemize}
+
+Used in lightweight models and tested for generalization to earpiece data.
+
+\textbf{33-Feature Set}
+This extended set combines time-domain, frequency-domain, and correlation-based features:
+
+\begin{itemize}
+    \item \textbf{C1–C20}: Same as above + per-axis mean, std, skewness, kurtosis
+    \item \textbf{C21–C30}: Frequency features (entropy, dominant frequency, band power 0--5~Hz)
+    \item \textbf{C31–C33}: Cross-axis correlations (X–Y, Y–Z, X–Z)
+\end{itemize}
+
+These features were particularly useful for distinguishing subtle variations between falls and fast ADLs, as seen in prior work.
+
+[Insert Table: Full 33-feature definitions with equations or descriptions]
+
+
+\subsection{Model Design and Training}
+
+We compared a diverse set of classifiers from different categories to explore tradeoffs between accuracy, generalization, and inference complexity:
+
+
+
+
+
+\vspace*{0.025\textheight} % Adjust the 0.2 multiplier as needed
+\begin{table}[h]
+\centering
+\caption{Overview of Classifier Models Used}
+\begin{tabular}{|>{\centering\arraybackslash}m{1.8cm}|m{3.5cm}|m{3.25cm}|}
+\hline
+\textbf{Model Type} & \textbf{Algorithms Used} & \textbf{Notes} \\[5pt]
+\hline
+Tree-based & Random Forest, Decision Tree, Extra Trees, Gradient Boosting & High accuracy and feature ranking ability \\[5pt] % Added vertical space
+\hline
+Linear models & Logistic Regression, Linear Discriminant Analysis (LDA) & Fast, interpretable \\[5pt]
+\hline
+Distance-based & k-Nearest Neighbors (k=3) & Sensitive to input scale \\[5pt]
+\hline
+Probabilistic & Naive Bayes & Assumes independence \\[5pt]
+\hline
+Kernel-based & SVM (RBF/Polynomial Kernel) & Effective with nonlinear boundaries \\[5pt]
+\hline
+\end{tabular}
+\end{table}
+\vspace*{\fill} % Fills remaining space
+
+
+
+% \begin{itemize}
+%     \item \textbf{Tree-based models}: Random Forest, Extra Trees, Decision Tree, Gradient Boosting
+%     \item \textbf{Linear models}: Logistic Regression, Linear Discriminant Analysis
+%     \item \textbf{Probabilistic and distance-based models}: Naive Bayes, KNN (k=3)
+%     \item \textbf{Kernel-based model}: SVM (Polynomial Kernel)
+% \end{itemize}
+
+
+
+All models were implemented using Scikit-learn, with hyperparameters kept at default or tuned minimally. We used:
+
+\begin{itemize}
+    \item \textbf{Stratified K-Fold Cross-Validation}: 5-fold CV to ensure balanced class distribution in each fold
+    \item \textbf{Train/test split}: 80\% training, 20\% testing with stratification
+    \item \textbf{Grid Search}: For hyperparameter tuning, especially for SVM and tree-based models
+    \item \textbf{Evaluation Metrics}: Accuracy, precision, recall, F1-score
+\end{itemize}
+
+We excluded models requiring GPU acceleration (e.g., deep learning) due to the limited power budget of the earpiece hardware.
+
+
+Models were trained and tested on three classification tasks:
+
+\begin{enumerate}
+    \item \textbf{Binary Classification}: Fall vs. ADL
+    \item \textbf{Multi-class ADL}: Walking, Jogging, Stairs, Sitting
+    \item \textbf{Multi-class ADL+Fall}: Walking, Jogging, Stairs, Sitting, Fall
+\end{enumerate}
+
+Each model was also evaluated on unseen earpiece recordings, segmented similarly, to assess generalizability.
+
+[Insert Table — Table 2: Overview of Models and Tasks]
+
+[Insert Confusion Matrix Samples — Figures 3–5]
+
+
+\subsection{Limitations and Practical Considerations}
+
+The major limitation in this methodology is the difference in sensor placement between the SisFall dataset and our ear-worn device. While we aligned axes and matched sampling rates, real-world signals from the ear show slightly different dynamics. As observed, models with higher feature counts performed better on test data but degraded on unseen data, highlighting the sensitivity of ML models to sensor context and orientation.
+
+Additionally, the absence of gyroscope data on the final device constrained signal quality during peak detection and orientation estimation.
 
 
 \section{Formatting Requirements}
