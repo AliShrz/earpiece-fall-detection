@@ -15,6 +15,16 @@
 \setcounter{totalnumber}{8}
 
 
+\usepackage{listings}
+\lstset{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=true,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false
+}
+
 %\onecolumn
 % Title and Author Information
 \title{Fall Detection Project - Master SSE - Hanze}
@@ -245,8 +255,8 @@ We compared a diverse set of classifiers from different categories to explore tr
 
 
 
-\vspace*{0.025\textheight} % Adjust the 0.2 multiplier as needed
-\begin{table}[h]
+% \vspace*{0.025\textheight} % Adjust the 0.2 multiplier as needed
+\begin{table*}
 \centering
 \caption{Overview of Classifier Models Used}
 \begin{tabular}{|>{\centering\arraybackslash}m{1.8cm}|m{3.5cm}|m{3.25cm}|}
@@ -264,8 +274,8 @@ Probabilistic & Naive Bayes & Assumes independence \\[5pt]
 Kernel-based & SVM (RBF/Polynomial Kernel) & Effective with nonlinear boundaries \\[5pt]
 \hline
 \end{tabular}
-\end{table}
-\vspace*{\fill} % Fills remaining space
+\end{table*}
+% \vspace*{\fill} % Fills remaining space
 
 
 
@@ -312,6 +322,149 @@ The major limitation in this methodology is the difference in sensor placement b
 Additionally, the absence of gyroscope data on the final device constrained signal quality during peak detection and orientation estimation.
 
 
+\section{Results}
+
+\subsection{14 feature Classifier Performance}
+\textbf{Combined Classifier (ADLs + Falls)}:
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (0.9950), Random Forest (0.9906)
+    \item Unseen data performance was generally poor across most models due to limited information content in the smaller feature set.
+    \item LDA again showed relatively better generalization (0.4937), recognizing walking, jogging, and fall events with higher accuracy.
+\end{itemize}
+
+
+[Insert Plot 4: Combined Classifier Accuracy (14 features) on Test Set and Unseen Data]
+
+\textbf{ADLs-Only Classifier}
+
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (0.9971), Random Forest (0.9913)
+    \item Unseen data performance: Logistic Regression had the highest unseen accuracy (0.5333), correctly detecting walking and jogging classes.
+\end{itemize}
+
+[Insert Plot 5: ADLs Classifier Accuracy (14 features) on Test Set and Unseen Data]
+
+\textbf{Binary Classifier (Fall vs. ADL)}
+
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (0.9993), Logistic Regression (0.9986), LDA (0.9978)
+    \item Unseen data: LDA excelled again (0.9873), misclassifying only one ADL segment out of 79.
+\end{itemize}
+
+[Insert Plot 6: Binary Classifier Accuracy (14 features) on Test Set and Unseen Data]
+
+\subsection{33 feature Classifier Performance}
+
+\textbf{Combined Classifier (ADLs + Falls)}:
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (0.9993), Random Forest (0.9935)
+    \item Unseen data performance was limited due to signal pattern mismatch caused by sensor placement (ear vs. waist). Most models misclassified walking and jogging.
+    \item LDA showed the highest unseen generalization (0.4937), accurately classifying walking, jogging, and fall segments better than others.
+\end{itemize}
+
+[Insert Plot 1: Combined Classifier Accuracy (33 features) on Test Set and Unseen Data]
+
+\textbf{ADLs-Only Classifier}
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (1.0000), Random Forest (0.9932)
+    \item Unseen data performance: SVM achieved the best generalization (0.5867), correctly identifying jogging and most walking segments.
+\end{itemize}
+
+[Insert Plot 2: ADLs Classifier Accuracy (33 features) on Test Set and Unseen Data]
+
+\textbf{Binary Classifier (Fall vs. ADL)}
+\begin{itemize}
+    \item Best test accuracy: Extra Trees (0.9993), LDA (0.9986), Random Forest (0.9993)
+    \item Unseen data: LDA again demonstrated superior generalization (0.9620), missing only 3 ADL segments out of 79.
+\end{itemize}
+
+[Insert Plot 3: Binary Classifier Accuracy (33 features) on Test Set and Unseen Data]
+
+
+
+
+\vspace*{0.025\textheight} % Adjust the 0.2 multiplier as needed
+\begin{table}[h]
+\centering
+\caption{Feature Size Comparison: 14 vs. 33 Features}
+\begin{tabular}{|>{\centering\arraybackslash}m{1.8cm}|m{1.5cm}|m{1.5cm}|m{1.5cm}|m{1.5cm}|}
+\hline
+\textbf{Task Type} & \textbf{Best Test Accuracy (33F)} & \textbf{Best Test Accuracy (14F)} & \textbf{Best Unseen Accuracy (33F)} & \textbf{Best Unseen Accuracy (14F)} \\[5pt]
+\hline
+Combined (5-class) & 0.9993 (Extra Trees) & 0.9950 (Extra Trees) & 0.4937 (LDA) & 0.4937 (LDA) \\[5pt] % Added vertical space
+\hline
+ADLs (4-class) & 1.0000 (Extra Trees) & 0.9971 (Extra Trees) & 0.5867 (SVM) & 0.5333 (Logistic Reg.) \\[5pt] % Added vertical space
+\hline
+Binary (2-class) & 0.9993 (Extra Trees) & 0.9993 (Extra Trees) & 0.9620 (LDA) & 0.9873 (LDA) \\[5pt] % Added vertical space
+\hline
+\end{tabular}
+\end{table}
+\vspace*{\fill} % Fills remaining space
+
+
+\textbf{Key Observations}:
+\begin{itemize}
+    \item Test set accuracy is consistently high in both configurations, showing both feature sets are learnable by tree-based models like Extra Trees and Random Forest.
+    \item Unseen data accuracy for binary classification slightly improves with the smaller feature set (14), especially for LDA.
+    \item For multi-class classification, the 33-feature model performs better overall, likely due to richer class separation.
+\end{itemize}
+
+
+These results demonstrate a trade-off: the 33-feature model offers higher discriminative power but may overfit to dataset-specific patterns. The 14-feature model is more robust across different placements (like earpiece vs. waist) but at the cost of slightly lower class-specific accuracy.
+
+
+\subsection{Feature Selection and UMAFall Integration}
+
+To improve generalization on real-world signals recorded from the \textbf{earpiece}, we addressed the observed issue of \textbf{low accuracy on unseen data}—primarily caused by the mismatch between the waist-worn sensors in the SisFall dataset and the ear placement of our actual device.
+
+\subsubsection{UMAFall Dataset Integration}
+
+We enhanced the training dataset by integrating samples from the \textbf{UMAFall} dataset, which includes similar ADLs and falls captured at 200 Hz. While UMAFall is also not ear-specific, its inclusion introduced additional variation in signal patterns and motion dynamics, aiding the generalization capability of our models.
+
+\subsubsection{Feature Selection Strategy}
+
+From the original 33 extracted features, we applied \textbf{statistical feature selection} to remove redundant or non-informative components. The selected features included descriptive statistics computed per signal axis (\texttt{X}, \texttt{Y}, \texttt{Z}), and optionally on their vector magnitude $\mathbf{mag} = \sqrt{x^2 + y^2 + z^2}$:
+
+\begin{itemize}
+    \item Mean: $\mu = \frac{1}{N} \sum_{i=1}^{N} x_i$
+    \item Variance: $\sigma^2 = \frac{1}{N} \sum_{i=1}^{N} (x_i - \mu)^2$
+    \item Standard Deviation: $\sigma = \sqrt{\sigma^2}$
+    \item Median: $\text{median}(x)$
+    \item Maximum and Minimum: $\max(x), \min(x)$
+    \item Peak-to-Peak Amplitude: $\text{ptp}(x) = \max(x) - \min(x)$
+    \item Percentiles: $P_{25}(x), P_{75}(x)$
+\end{itemize}
+
+These features were extracted from each of the 3 axes (\texttt{X}, \texttt{Y}, \texttt{Z}) and optionally from the magnitude channel. This resulted in a compact yet expressive feature vector that is computationally efficient and robust to orientation variance.
+
+\subsubsection{Implementation Example}
+
+Feature vectors were generated using the following feature extractor:
+
+\begin{lstlisting}[language=Python, basicstyle=\ttfamily\tiny, breaklines=true]
+names = ['mean', 'var', 'std', 'median', 'max', 'min', 'ptp', 'centile25', 'centile75']
+columns = list('_'.join(n) for n in itertools.product(names, data.columns.tolist()))
+\end{lstlisting}
+
+\subsubsection{Performance Improvements}
+
+After applying feature selection and enriching the dataset with UMAFall signals, we observed significant accuracy improvements on \textbf{unseen earpiece test data}.
+
+\textbf{Model-wise performance gains:}
+\begin{itemize}
+    \item \textbf{Combined Classifier (ADLs + Falls)}: Best performance from \textbf{LDA}, \textbf{MLP}, and \textbf{Random Forest}.
+    \item \textbf{ADL-Only Classifier}: Top accuracy achieved by \textbf{LDA}, \textbf{MLP}, and \textbf{Logistic Regression}.
+    \item \textbf{Binary Classifier (Fall vs. ADL)}: Best models were \textbf{Logistic Regression}, \textbf{SVM}, and \textbf{Random Forest}.
+\end{itemize}
+
+These results confirm that \textbf{feature quality and dataset diversity} play a more critical role than increasing model complexity when designing robust fall detection systems for wearable edge devices.
+
+\vspace{1em}
+\textit{[Insert Figure: Accuracy Comparison Before vs. After Feature Selection]}
+
+
+% -//////////////////
+
 \section{Formatting Requirements}
 
 \noindent You are free to write the report in \LaTeX\ or Word (a template is available for \LaTeX\ in Overleaf\footnote{\url{https://www.overleaf.com}}).  The report should adhere to the IEEE conference paper format, which is a two-column layout. The official IEEE template can be downloaded from the IEEE page\footnote{\url{https://www.ieee.org/conferences/publishing/templates.html}}. Following the formatting instructions in the template, all formatting shall be done automagically. Note, this guideline is also written in the IEEE template style. 
@@ -323,11 +476,7 @@ Additionally, the absence of gyroscope data on the final device constrained sign
 \noindent The report is structured to provide a comprehensive overview of the design and implementation process. Key sections include an introduction that outlines the context and problem being addressed, a literature review, a conceptual model (requirements, overview of the proposed solution, research question or goal), a detailed description of the design of the process to answer the research question (or to achieve the goal) and how to obtain and validate the results, results and discussion. Finally, the report concludes with a summary of findings and potential areas for improvement. To ensure reproducibility and transparency, code and other relevant information must be available and linked (for example, on GitHub). The suggested structure of your report is as follows. This structure is not set into stone, hence, you are free to adjust it to your needs. 
 
 
-\begin{figure}[b]
-  \centering
-  \includegraphics[width=0.7\columnwidth]{toasterpet.jpg}
-  \caption{Comic by Scott Masear, adapted from \label{comic}\cite{joke}.}
-\end{figure}
+
 
 
 \begin{table*}
@@ -442,6 +591,7 @@ I_{LED} = \frac{V_{R}}{R},
   \caption{Example Schematic generated with Schemdraw \cite{schem}\label{schematic}.}
   \label{Fig:schematics}
 \end{figure}
+
 
 \subsection{Acknowledgments}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  29 JUN 2025 08:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  29 JUN 2025 19:03
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -265,26 +265,23 @@ LaTeX Warning: Label `comic' multiply defined.
 
 LaTeX Warning: Label `fig:comic' multiply defined.
 
-
-LaTeX Warning: Label `comic' multiply defined.
-
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 30.
-LaTeX Font Info:    ... okay on input line 30.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
 
 -- Lines per column: 56 (exact).
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -314,182 +311,274 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 <toasterpet.jpg, id=21, 853.1875pt x 761.84625pt>
 File: toasterpet.jpg Graphic file (type jpg)
 <use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 142.
+Package pdftex.def Info: toasterpet.jpg  used on input line 152.
 (pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 161.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 171.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [3 <./toasterpet.jpg>]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 191.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 201.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
 []\OT1/ptm/m/n/10 Applied \OT1/pcr/m/n/10 split_and_add() \OT1/ptm/m/n/10 or
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 192--193
+Underfull \hbox (badness 10000) in paragraph at lines 202--203
 \OT1/pcr/m/n/10 split_and_center() \OT1/ptm/m/n/10 to gen-er-ate clean
  []
 
 File: toasterpet.jpg Graphic file (type jpg)
 <use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 203.
+Package pdftex.def Info: toasterpet.jpg  used on input line 213.
 (pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
 
-Underfull \hbox (badness 6094) in paragraph at lines 258--258
+Underfull \hbox (badness 6094) in paragraph at lines 268--268
 []|\OT1/ptm/m/n/8 Logistic Re-gres-sion, Lin-ear
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 264--264
+Underfull \hbox (badness 10000) in paragraph at lines 274--274
 []|\OT1/ptm/m/n/8 Effective with non-lin-ear
  []
 
+[4]
+Underfull \hbox (badness 3954) in paragraph at lines 332--333
+[]\OT1/ptm/m/n/10 LDA again showed rel-a-tively bet-ter gen-er-al-iza-tion
+ []
 
-Overfull \hbox (28.87111pt too wide) in paragraph at lines 252--267
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+[]|\OT1/ptm/b/n/8 Best Test
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+\OT1/ptm/b/n/8 Ac-cu-racy
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+[]|\OT1/ptm/b/n/8 Best Test
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+\OT1/ptm/b/n/8 Ac-cu-racy
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+\OT1/ptm/b/n/8 Ac-cu-racy
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+\OT1/ptm/b/n/8 Ac-cu-racy
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 394--394
+[]|\OT1/ptm/m/n/8 0.9993 (Ex-
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 394--394
+[]|\OT1/ptm/m/n/8 0.9950 (Ex-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
+[]|\OT1/ptm/m/n/8 0.4937
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 394--394
+[]|\OT1/ptm/m/n/8 0.4937
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 396--396
+[]|\OT1/ptm/m/n/8 1.0000 (Ex-
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 396--396
+[]|\OT1/ptm/m/n/8 0.9971 (Ex-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 396--396
+[]|\OT1/ptm/m/n/8 0.5867
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 396--396
+[]|\OT1/ptm/m/n/8 0.5333 (Lo-
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 398--398
+[]|\OT1/ptm/m/n/8 0.9993 (Ex-
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 398--398
+[]|\OT1/ptm/m/n/8 0.9993 (Ex-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--398
+[]|\OT1/ptm/m/n/8 0.9620
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 398--398
+[]|\OT1/ptm/m/n/8 0.9873
+ []
+
+
+Overfull \hbox (32.3315pt too wide) in paragraph at lines 390--401
  [][] 
  []
 
-[4]
-File: toasterpet.jpg Graphic file (type jpg)
-<use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 328.
-(pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
- [5] [6]
-<schematic.png, id=35, 470.04408pt x 521.21124pt>
+[5] (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/02/21 1.10 listings language file
+) [6] [7]
+<schematic.png, id=40, 470.04408pt x 521.21124pt>
 File: schematic.png Graphic file (type png)
 <use schematic.png>
-Package pdftex.def Info: schematic.png  used on input line 441.
+Package pdftex.def Info: schematic.png  used on input line 590.
 (pdftex.def)             Requested size: 226.79846pt x 251.4908pt.
 
-Underfull \hbox (badness 2042) in paragraph at lines 498--502
+Underfull \hbox (badness 2042) in paragraph at lines 648--652
 []\OT1/ptm/m/n/8 Li, Q., Stankovic, J. A., Han-son, M. A., Barth, A. T., Lach,
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 498--502
+Underfull \hbox (badness 1990) in paragraph at lines 648--652
 \OT1/ptm/m/n/8 J., & Zhou, G. (2009). \OT1/ptm/m/it/8 Ac-cu-rate, fast fall de-tec-tion us-ing gy-
  []
 
 
-Underfull \hbox (badness 2469) in paragraph at lines 498--502
+Underfull \hbox (badness 2469) in paragraph at lines 648--652
 \OT1/ptm/m/it/8 ro-scopes and accelerometer-derived pos-ture in-for-ma-tion\OT1/ptm/m/n/8 , In Pro-
  []
 
 
-Underfull \hbox (badness 4120) in paragraph at lines 498--502
+Underfull \hbox (badness 4120) in paragraph at lines 648--652
 \OT1/ptm/m/n/8 ceed-ings of the 2009 Sixth In-ter-na-tional Work-shop on Wear-
  []
 
-
-Underfull \hbox (badness 2409) in paragraph at lines 505--509
+[8 <./schematic.png>]
+Underfull \hbox (badness 2409) in paragraph at lines 655--659
 []\OT1/ptm/m/n/8 Wang, Y., Sar-vari, P. A., & Khadraoui, D. (2024). \OT1/ptm/m/it/8 Fu-sion of
  []
 
 
-Underfull \hbox (badness 1810) in paragraph at lines 505--509
+Underfull \hbox (badness 1810) in paragraph at lines 655--659
 \OT1/ptm/m/it/8 tec-tion in Health-care Us-ing In-er-tial Sen-sors\OT1/ptm/m/n/8 , In Pro-ceed-ings of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 519--523
+Underfull \hbox (badness 10000) in paragraph at lines 669--673
 []\OT1/ptm/m/n/8 Althobaiti, T., Kat-si-gian-nis, S., & Ramzan, N. (2020).
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 519--523
+Underfull \hbox (badness 3009) in paragraph at lines 669--673
 \OT1/ptm/m/it/8 Tri-ax-ial Accelerometer[]Based Falls and Ac-tiv-i-ties of Daily Life
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 519--523
+Underfull \hbox (badness 10000) in paragraph at lines 669--673
 \OT1/ptm/m/it/8 De-tec-tion Us-ing Ma-chine Learn-ing\OT1/ptm/m/n/8 , Sen-sors, 20(13), 3777.
  []
 
 
-Underfull \hbox (badness 4048) in paragraph at lines 533--537
+Underfull \hbox (badness 4048) in paragraph at lines 683--687
 []\OT1/ptm/m/n/8 Skoglund, M. A., Balzi, G., Jensen, E. L., Bhuiyan, T. A.,
  []
 
 
-Underfull \hbox (badness 4024) in paragraph at lines 533--537
+Underfull \hbox (badness 4024) in paragraph at lines 683--687
 \OT1/ptm/m/n/8 & Rotger-Griful, S. (2021). \OT1/ptm/m/it/8 Ac-tiv-ity Track-ing Us-ing Ear-Level
  []
 
 
-Underfull \hbox (badness 3646) in paragraph at lines 533--537
+Underfull \hbox (badness 3646) in paragraph at lines 683--687
 \OT1/ptm/m/it/8 Ac-celerom-e-ters\OT1/ptm/m/n/8 , Fron-tiers in Dig-i-tal Health, 3, Ar-ti-cle 724714.
  []
 
 
-Underfull \hbox (badness 7667) in paragraph at lines 540--544
+Underfull \hbox (badness 7667) in paragraph at lines 690--694
 []\OT1/ptm/m/n/8 Palmerini, L., Klenk, J., Becker, C., & Chiari, L. (2020).
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 540--544
+Underfull \hbox (badness 5077) in paragraph at lines 690--694
 \OT1/ptm/m/it/8 ing and Test-ing on Real[]World Falls\OT1/ptm/m/n/8 , Sen-sors, 20(22), 6479.
  []
 
-[7 <./schematic.png>]
-Underfull \hbox (badness 3861) in paragraph at lines 547--551
+
+Underfull \hbox (badness 3861) in paragraph at lines 697--701
 []\OT1/ptm/m/n/8 Boborzi, L., Decker, J., Rezaei, R., Schniepp, R., & Wuehr,
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 547--551
+Underfull \hbox (badness 1939) in paragraph at lines 697--701
 \OT1/ptm/m/it/8 ment Us-ing an Ear[]Worn Mo-tion Sen-sor\OT1/ptm/m/n/8 , Sen-sors, 24(9), 2665.
  []
 
 
-Underfull \hbox (badness 2443) in paragraph at lines 554--558
+Underfull \hbox (badness 2443) in paragraph at lines 704--708
 \OT1/ptm/m/it/8 to-matic Fall De-tec-tion in Older Adults\OT1/ptm/m/n/8 , Sen-sors, 21(21), 7166.
  []
 
 
-Underfull \hbox (badness 4291) in paragraph at lines 561--565
+Underfull \hbox (badness 4291) in paragraph at lines 711--715
 []\OT1/ptm/m/n/8 Bennasar, M., Price, B. A., Gooch, D., Ban-dara, A. K., &
  []
 
 
-Underfull \hbox (badness 5563) in paragraph at lines 561--565
+Underfull \hbox (badness 5563) in paragraph at lines 711--715
 \OT1/ptm/m/n/8 Nu-seibeh, B. (2022). \OT1/ptm/m/it/8 Sig-nif-i-cant Fea-tures for Hu-man Ac-tiv-ity
  []
 
 
-Underfull \hbox (badness 3396) in paragraph at lines 583--586
+Underfull \hbox (badness 3396) in paragraph at lines 733--736
 \OT1/ptm/m/n/8 2, Amer-i-can Math-e-mat-i-cal So-ci-ety (AMS), 1944, pp. 164-168.
  []
 
 
-Overfull \hbox (20.7281pt too wide) in paragraph at lines 583--586
+Overfull \hbox (20.7281pt too wide) in paragraph at lines 733--736
 \OT1/pcr/m/n/8 https://www.ams.org/journals/qam/1944-02-02/home.html 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--591
+Underfull \hbox (badness 10000) in paragraph at lines 737--741
 []\OT1/ptm/m/n/8 Donald W. Mar-quardt, \OT1/ptm/m/it/8 An Al-go-rithm for Least-Squares
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--591
+Underfull \hbox (badness 10000) in paragraph at lines 737--741
 \OT1/ptm/m/it/8 Es-ti-ma-tion of Non-lin-ear Pa-ram-e-ters\OT1/ptm/m/n/8 , SIAM Jour-nal on
  []
 
 
-Underfull \hbox (badness 7291) in paragraph at lines 587--591
+Underfull \hbox (badness 7291) in paragraph at lines 737--741
 \OT1/ptm/m/n/8 Ap-plied Math-e-mat-ics, vol. 11, no. 2, So-ci-ety for In-dus-trial
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 587--591
+Underfull \hbox (badness 10000) in paragraph at lines 737--741
 \OT1/ptm/m/n/8 and Ap-plied Math-e-mat-ics (SIAM), 1963, pp. 431-441.
  []
 
 
-Underfull \hbox (badness 5460) in paragraph at lines 593--594
+Underfull \hbox (badness 5460) in paragraph at lines 743--744
 []\OT1/ptm/m/n/8 Robot jokes, https://jokes.scoutlife.org/topics/robot-jokes/, ac-cessed
  []
 
@@ -504,7 +593,7 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[8
+[9
 
 ] (./main.aux)
  ***********
@@ -517,18 +606,18 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4850 strings out of 474116
- 77683 string characters out of 5743681
- 1946187 words of memory out of 5000000
- 27159 multiletter control sequences out of 15000+600000
- 603869 words of font info for 119 fonts, out of 8000000 for 9000
+ 5284 strings out of 474116
+ 81636 string characters out of 5743681
+ 1961187 words of memory out of 5000000
+ 27587 multiletter control sequences out of 15000+600000
+ 604899 words of font info for 123 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,10n,65p,1038b,296s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (8 pages, 444538 bytes).
+ 57i,10n,65p,1038b,1293s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (9 pages, 467710 bytes).
 PDF statistics:
- 101 PDF objects out of 1000 (max. 8388607)
- 61 compressed objects within 1 object stream
+ 109 PDF objects out of 1000 (max. 8388607)
+ 66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 
