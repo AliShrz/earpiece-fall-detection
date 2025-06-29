@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{color}
 \usepackage{fancyhdr}
+\usepackage{amsmath}
 \setcounter{topnumber}{8}
 \setcounter{bottomnumber}{8}
 \setcounter{totalnumber}{8}
@@ -35,14 +36,89 @@ This document provides instructions on how to prepare a report about your projec
 
 \section{Introduction}
 
-\noindent Falls among elderly individuals are a major cause of injury, hospitalization, and death, posing a serious burden on healthcare systems worldwide\cite{who}. Wearable sensors, particularly smartwatches, are emerging as an effective platform for continuous fall detection due to their accessibility, portability, and integration with smartphones[2]. Smartwatches typically incorporate Inertial Measurement Units (IMUs) that include accelerometers and gyroscopes capable of capturing fine-grained motion data in real time[3].
-
-However, fall detection remains challenging due to the diversity of Activities of Daily Living (ADLs) and the transient nature of fall events, which often resemble benign motions such as sitting or jumping[4]. 
-
-Recent research has proposed a range of deep learning-based models that aim to improve detection accuracy by learning robust motion patterns from raw sensor data, including CNNs, Transformers, and hybrid models[5][6]. In addition to accuracy, energy efficiency and real-time inference are key requirements for embedded AI deployment on wearables, motivating the use of quantization, pruning, and knowledge distillation[7][8].
-
-
+\noindent Falls are a major health hazard for the elderly: roughly one-third of people over 65 experience a fall each year, often resulting in fractures or long periods of incapacitation \cite{SisFall}.
+Prompt fall detection and alerting can greatly reduce the severity of outcomes by preventing “long lie” situations \cite{SisFall,2}.
+Wearable devices (e.g. smartphones, pendants, smartwatches) have been widely studied for this purpose, typically using accelerometers (and often gyroscopes) to detect the high accelerations or orientations associated with falls \cite{3,4}.
+In this work we propose an ear-worn device (earpiece) with an integrated 3‑axis accelerometer (LIS2DW12) to automatically detect falls and notify caregivers. An in-ear sensor has advantages in user acceptance (it resembles a hearing aid) and continuous use, but poses unique challenges since only head accelerations (no gyroscope) are available.
+Due to the lack of a dedicated ear-worn fall dataset, we use the public SisFall database (waist-mounted IMU) for development. SisFall comprises 19 types of ADLs and 15 types of falls performed by young and older adults \cite{SisFall} and its creators report that even a simple threshold-based classifier can achieve up to 96\% fall-detection accuracy on it \cite{SisFall}. We will build on these data with three design concepts (a simple threshold detector, a single ML classifier, and a hybrid threshold+ML approach) and compare their performance.
 % Instructions Section
+
+% related work
+\section{Related Work}
+
+Numerous studies compare threshold-based fall detectors to machine-learning methods. Threshold detectors use fixed cutoffs on acceleration magnitude or orientation changes. These are simple and fast, and some implementations (e.g. using an accelerometer sum magnitude threshold) have reported high accuracy in controlled tests (sensitivities around 92–100\% and specificities above 95\%) \cite{5,3}. 
+However, these algorithms tend to fail on diverse real-world data: small movements or fall-like activities (e.g. quick sitting) can trigger false alarms, and variations between users can violate fixed thresholds.
+By contrast, machine learning (ML) classifiers can learn complex patterns from data. For example, Aziz et al. (2017) evaluated five ML methods (e.g. SVM, decision tree) versus five literature thresholds using waist accelerometer data.
+They found that all ML models outperformed threshold rules, with a support-vector machine giving the best balance of sensitivity and specificity \cite{6}.
+Other work also reports very high ML-based performance: Yu et al. used a Hidden Markov Model on raw accelerations to achieve 99.2\% sensitivity (fall) and 99.0\% specificity \cite{5}.
+Likewise, Liu et al. extracted a rich time-domain feature set from a waist accelerometer and reached 97.6\% accuracy with an SVM \cite{7}. ; Chelli et al. reported 99.1\% accuracy for fall-versus-ADL classification using an ensemble tree classifier on multiple features \cite{7}.
+
+Recent reviews conclude that ML and even deep-learning models often exceed the accuracy of simple thresholds \cite{6,5}. 
+Nevertheless, ML classifiers require more computation and power. Hybrid approaches have therefore been proposed. For example, Li et al. (2009) designed a fall detector using both accelerometers and gyroscopes: by combining linear acceleration and angular velocity, they reduced both false positives and negatives compared to accelerometer-only methods \cite{4}.
+In a similar spirit, a 2024 study introduces a two-tier hybrid algorithm: it first applies simple acceleration/gyro thresholds to identify candidate fall windows, then applies a trained ML model to classify those windows as “fall” or “ADL.” This reduced computation (since the ML model runs only on likely events) while maintaining high accuracy \cite{5}.
+These hybrid schemes align with our third concept.
+
+Sensor placement is another important factor. Most studies use the waist or chest, which are close to the body's center of mass and yield the strongest signals. A systematic analysis found the waist sensor gave the highest fall-detection sensitivity (~99.96\%), whereas peripheral placements (e.g. wrist) performed worse \cite{8}.
+Very few works examine ear-worn sensors for fall detection. However, activity-tracking research shows ear-mounted accelerometers can still recognize common motions: for example, classifying 9 ADL categories yielded $\approx$84\% accuracy with an ear sensor (vs. 90\% from a waist sensor) \cite{9}. 
+This suggests ear-level sensing is feasible, albeit somewhat lower-performing than torso mounts. (In fact, modern hearing aids now include accelerometers for context-adaptive features, with fall-detection mentioned as a potential application \cite{9}.) In summary, while ear placement is less studied, existing evidence indicates it can capture useful motion features, though we should expect some accuracy loss compared to chest/waist sensors \cite{8,9}.
+
+
+\section{System Design and Data Preprocessing}
+
+Our goal is to detect falls from the earpiece's accelerometer in real time. We consider three designs:
+
+\begin{itemize}
+    \item \textbf{Threshold-based detector}: Compute the magnitude of acceleration 
+    $|\mathbf{a}| = \sqrt{a_x^2 + a_y^2 + a_z^2}$ continuously. If $|\mathbf{a}|$ exceeds a preset threshold (e.g., $\sim$1.4--1.5\,g, as in prior work \cite{10}) within a short time window, signal a fall. This simple method has low computational requirements but is prone to false alarms when sudden non-fall movements occur. In practice, we would tune the threshold to balance missed falls versus false alarms, as in \cite{5} who achieved $\sim$92.6\% sensitivity using thresholding.
+
+    \item \textbf{Continuous ML classifier}: Segment the incoming acceleration into fixed-size time windows (e.g., 2--3\,seconds), extract features from each window, and feed them to a trained classifier (e.g., SVM, Random Forest, neural network) that predicts ``fall'' or ``no fall.'' This mirrors the approach of many studies: raw accelerometer data are first filtered (e.g., low-pass at $\approx$10\,Hz, since human motion is mostly $<$10\,Hz \cite{5}), then for each window we compute time-domain statistics (mean, variance, peak, skewness, etc.) and perhaps frequency-domain metrics \cite{7,10}. The classifier is trained on labeled fall vs.\ ADL (Activities of Daily Living) windows. Previous works report that such ML models can achieve high accuracy (often $>$95\%) on balanced test sets \cite{6,7}.
+
+    
+    \item \textbf{Hybrid threshold + ML}: A two-tier strategy that combines the above. First, apply a quick threshold check: only when the acceleration magnitude in a window briefly exceeds a secondary (lower) threshold do we invoke the ML classifier. Windows below this level are immediately labeled ``no fall.'' This reduces computational workload and false positives. A similar approach was used in recent research \cite{5}: candidate fall ``events'' are detected by thresholding the acceleration magnitude (or signal magnitude vector, SMV), and then refined by an ML model. In our case, once the earpiece’s SMV exceeds the chosen cut-off, we extract features from a surrounding 2-second window and feed them to the ML model to decide \textit{fall} vs.\ \textit{benign activity} \cite{5}. If the threshold is never crossed, we presume ADL (no fall) and need not run the classifier at all.
+\end{itemize}
+
+All approaches use features derived from accelerometer windows. Common practice is to filter the raw data (we will apply a 4th-order Butterworth low-pass filter at $\sim$10\,Hz \cite{5}) and compute the signal magnitude vector (SMV):
+
+\begin{equation}
+    \text{SMV} = \sqrt{a_x^2 + a_y^2 + a_z^2}
+\end{equation}
+
+Falls produce a sharp SMV peak when the body impacts the ground \cite{5}. We plan to align windows to this peak (e.g., taking 1\,s before to 1\,s after) as candidate fall samples \cite{5}. For ADL windows, we will slide a fixed-length window through the data (as done in \cite{5}) on segments where no fall peaks occur. From each window we will extract features (mean, max, variance of each axis, SMV peak, energy, etc.) as is standard in the literature \cite{7,10}.
+
+We will train and evaluate classifiers using the \textit{SisFall} dataset. While \textit{SisFall}'s IMU is waist-mounted and includes both accelerometer and gyroscope data \cite{SisFall}, our earpiece provides only accelerometry. Consequently, we will use only the acceleration channels from \textit{SisFall}, ignoring the gyroscopic data. We note this as a potential limitation: many high-accuracy fall detection systems rely on multimodal sensor data \cite{4}, so using only accelerometer data (particularly from a head-worn position rather than waist-mounted) may reduce detection performance. 
+
+Our preprocessing pipeline (filtering, window segmentation) follows established practices from these benchmark datasets \cite{SisFall,7}. Specifically:
+\begin{itemize}
+    \item Apply 4th-order Butterworth low-pass filtering ($\sim$10\,Hz cutoff)
+    \item Compute SMV ($\sqrt{a_x^2 + a_y^2 + a_z^2}$) for each sample
+    \item Segment data into event-aligned windows (1\,s pre-peak to 1\,s post-peak for falls)
+    \item Extract time-domain features (mean, variance, peak magnitude, etc.)
+\end{itemize}
+
+A key component in wearable fall detection systems is the design of input features used for classification. Numerous studies have shown that hand-crafted statistical and spectral features derived from accelerometer signals can significantly improve machine learning model performance \cite{11,7}.
+
+In most high-performing systems, data are first segmented into short windows (typically 1--3\,seconds), and then multiple types of features are computed from these windows. These features fall into three main categories:
+
+\begin{itemize}
+    \item \textbf{Time-domain features}: mean, variance, standard deviation, RMS, range, signal magnitude area (SMA), skewness, kurtosis, and zero-crossing rate \cite{11,12}
+    \item \textbf{Frequency-domain features}: FFT coefficients, spectral entropy, power in different frequency bands, and dominant frequency peaks \cite{7,13}
+    \item \textbf{Cross-axis or composite features}: inter-axis correlations (Pearson or Kendall), jerk magnitude (first derivative of acceleration), and resultant acceleration vectors \cite{11}
+\end{itemize}
+
+The study by \cite{11}, which used an ear-worn accelerometer, extracted a rich set of 64 features per segment---including absolute means, RMS, min/max, interquartile ranges, skewness, kurtosis, signal energy, and spectral entropy---achieving $\sim$95\% accuracy across six ADLs using a Support Vector Machine (SVM). Notably, they found that simple time-domain features like variance, range, and minimum of the vertical axis were among the most discriminative for fall and ADL classification from an ear-worn position.
+
+Similarly, \cite{12} used a waist-mounted sensor and reported that nine features per axis---including median, percentiles, and entropy---were sufficient to train models like SVM and Random Forests with accuracy in the range of 93--96\%, especially when generalizing to unseen fall scenarios.
+
+\cite{7} extracted 72 features, including autocorrelation peaks and amplitudes, band powers (e.g., 0--5\,Hz, 5--10\,Hz, 10--20\,Hz), and reported an F1-score of $\sim$98.4\% for binary fall detection using SVMs, and $\sim$88\% for multi-class fall and ADL detection. Importantly, they also showed that feature selection could reduce the input set to just 13 features without significantly harming performance, indicating that redundancy among features can be minimized through dimensionality reduction.
+
+\cite{13} further supported the value of hybrid feature types, combining RMS and FFT-based spectral features with autocorrelation and wavelet packet decomposition (WPD) to boost classification performance on smartphone-based ADL data to $\sim$98\% when using SVMs. In contrast, using time-domain features alone led to significantly lower accuracy ($\sim$74\%).
+
+Across these studies, a consistent pattern emerges: the most effective ML-based fall detectors combine multiple feature types to represent motion dynamics in both time and frequency domains. Simple, interpretable features---such as mean, RMS, range, entropy, and inter-axis correlation---are not only effective but also computationally efficient, making them ideal for low-power wearable implementations. These findings validate the design choices in our system, where we extracted 33 carefully selected time- and frequency-domain features, such as spectral entropy, RMS, jerk, velocity energy, and correlation coefficients, tailored to an accelerometer-only earpiece device.
+
+Furthermore, the cited studies reinforce the point that high performance is possible even without gyroscopes, provided the features are informative enough and segmentation aligns with key signal events (e.g., fall peaks). This supports the practicality of our accelerometer-only setup using the LIS2DW12 sensor, despite its limitations in orientation sensing \cite{11,7}.
+
+
+
 \section{Formatting Requirements}
 
 \noindent You are free to write the report in \LaTeX\ or Word (a template is available for \LaTeX\ in Overleaf\footnote{\url{https://www.overleaf.com}}).  The report should adhere to the IEEE conference paper format, which is a two-column layout. The official IEEE template can be downloaded from the IEEE page\footnote{\url{https://www.ieee.org/conferences/publishing/templates.html}}. Following the formatting instructions in the template, all formatting shall be done automagically. Note, this guideline is also written in the IEEE template style. 
@@ -207,17 +283,98 @@ This text is based on the original "Report Submission Guidelines for BIP Project
 
 \begin{thebibliography}{20} % Breite für die Nummern
 
-\bibitem{who}
-World Health Organization. (2021). Falls.
-{\tt https://www.who.int/news-room/fact-sheets/detail/falls}
+\bibitem{SisFall}
+Sucerquia, A., López, J. D., \& Vargas-Bonilla, J. F. (2017, January).
+{\it SisFall: A Fall and Movement Dataset},
+Sensors, 17(1), 198.
+{\tt https://www.mdpi.com/1424-8220/17/1/198}
 
 \bibitem{2}
-Patel, S., Park, H., Bonato, P., Chan, L., \& Rodgers, M. (2012). 
-{\it A review of wearable sensors and systems with application in rehabilitation},
-Journal of NeuroEngineering and Rehabilitation. 
-{\tt https://doi.org/10.1186/1743-0003-9-21}
+Guilbeault-Sauvé, A., De Kelper, B., \& Voix, J. (2021, March).
+{\it Man Down Situation Detection Using an in-Ear Inertial Platform},
+Sensors, 21(5), 1730.
+{\tt https://www.mdpi.com/1424-8220/21/5/1730}
 
 \bibitem{3}
+Aziz, O., \& Robinovitch, S. N. (2011).  
+{\it An analysis of the accuracy of wearable sensors for classifying the causes of falls in humans},  
+IEEE Transactions on Neural Systems and Rehabilitation Engineering, 19(6), 670-676.  
+{\tt https://doi.org/10.1109/TNSRE.2011.2162250}
+
+\bibitem{4}
+Li, Q., Stankovic, J. A., Hanson, M. A., Barth, A. T., Lach, J., \& Zhou, G. (2009).  
+{\it Accurate, fast fall detection using gyroscopes and accelerometer-derived posture information},  
+In Proceedings of the 2009 Sixth International Workshop on Wearable and Implantable Body Sensor Networks (BSN) (pp. 138-143).  
+{\tt https://doi.org/10.1109/BSN.2009.46}
+
+
+\bibitem{5}
+Wang, Y., Sarvari, P. A., \& Khadraoui, D. (2024).  
+{\it Fusion of Machine Learning and Threshold-Based Approaches for Fall Detection in Healthcare Using Inertial Sensors},  
+In Proceedings of the 17th International Joint Conference on Biomedical Engineering Systems and Technologies (BIOSTEC 2024), vol. 1, pp. 573-582.  
+{\tt https://doi.org/10.5220/0012250500003657}  
+
+
+\bibitem{6}
+Aziz, O., Musngi, M., Park, E. J., Mori, G., \& Robinovitch, S. N. (2016).  
+{\it A comparison of accuracy of fall detection algorithms (threshold‑based vs. machine learning) using waist‑mounted tri‑axial accelerometer signals from a comprehensive set of falls and non‑fall trials},  
+*Medical \& Biological Engineering \& Computing*, 55 (1), 45--55.  
+{\tt https://doi.org/10.1007/s11517-016-1504-y}
+
+
+\bibitem{7}
+Althobaiti, T., Katsigiannis, S., \& Ramzan, N. (2020).  
+{\it Triaxial Accelerometer‑Based Falls and Activities of Daily Life Detection Using Machine Learning},  
+Sensors, 20(13), 3777.  
+{\tt https://doi.org/10.3390/s20133777}
+
+
+\bibitem{8}
+Özdemir, A. T. (2016).  
+{\it An Analysis on Sensor Locations of the Human Body for Wearable Fall Detection Devices: Principles and Practice},  
+Sensors, 16(8), 1161.  
+{\tt https://doi.org/10.3390/s16081161}`'
+
+
+\bibitem{9}
+Skoglund, M. A., Balzi, G., Jensen, E. L., Bhuiyan, T. A., \& Rotger-Griful, S. (2021).  
+{\it Activity Tracking Using Ear-Level Accelerometers},  
+Frontiers in Digital Health, 3, Article 724714.  
+{\tt https://doi.org/10.3389/fdgth.2021.724714}
+
+
+\bibitem{10}
+Palmerini, L., Klenk, J., Becker, C., \& Chiari, L. (2020).  
+{\it Accelerometer‑Based Fall Detection Using Machine Learning: Training and Testing on Real‑World Falls},  
+Sensors, 20(22), 6479.  
+{\tt https://doi.org/10.3390/s20226479}
+
+
+\bibitem{11}
+Boborzi, L., Decker, J., Rezaei, R., Schniepp, R., \& Wuehr, M. (2024).  
+{\it Human Activity Recognition in a Free‑Living Environment Using an Ear‑Worn Motion Sensor},  
+Sensors, 24(9), 2665.  
+{\tt https://doi.org/10.3390/s24092665}
+
+
+\bibitem{12}
+Alizadeh, J., Bogdan, M., Classen, J., \& Fricke, C. (2021).  
+{\it Support Vector Machine Classifiers Show High Generalizability in Automatic Fall Detection in Older Adults},  
+Sensors, 21(21), 7166.  
+{\tt https://doi.org/10.3390/s21217166}
+
+
+\bibitem{13}
+Bennasar, M., Price, B. A., Gooch, D., Bandara, A. K., \& Nuseibeh, B. (2022).  
+{\it Significant Features for Human Activity Recognition Using Tri‑Axial Accelerometers},  
+Sensors, 22(19), 7482.  
+{\tt https://doi.org/10.3390/s22197482}
+
+
+
+
+
+\bibitem{}
 Gjoreski, M., Lustrek, M., \& Gams, M. (2011). 
 {\it Accelerometer placement for posture recognition and fall detection},
 In Intelligent Environments (IE), 2011 7th International Conference on (pp. 47–54). 
