@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  29 JUN 2025 19:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2024.11.26)  1 JUL 2025 17:28
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -254,332 +254,408 @@ Package: ragged2e 2023/06/22 v3.6 ragged2e Package
 \RaggedLeftParindent=\skip76
 \RaggedRightParindent=\skip77
 \JustifyingParindent=\skip78
-) (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count289
-\l__pdf_internal_box=\box59
-) (./main.aux
-
-LaTeX Warning: Label `comic' multiply defined.
-
-
-LaTeX Warning: Label `fig:comic' multiply defined.
-
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen181
+\captionmargin=\dimen182
+\caption@leftmargin=\dimen183
+\caption@rightmargin=\dimen184
+\caption@width=\dimen185
+\caption@indent=\dimen186
+\caption@parindent=\dimen187
+\caption@hangindent=\dimen188
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEtablestring \footnotesize \bgroup \par \centering \@IEEEtabletopskipstrut {\normalfont \footnotesize #1}\\{\normalfont \footnotesize \scshape #2}\par \addvspace {0.5\baselineskip }\egroup \@IEEEtablecaptionsepspace \else \@IEEEfigurecaptionsepspace \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspace \nobreakspace #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\normalfont \footnotesize {#1.}\nobreakspace \nobreakspace }\parbox [t]{\hsize }{\normalfont \footnotesize \noindent \unhbox \@tempboxa #2}\else \ifCLASSOPTIONconference \hbox to\hsize {\normalfont \footnotesize \hfil \box \@tempboxa \hfil }\else \hbox to\hsize {\normalfont \footnotesize \box \@tempboxa \hfil }\fi \fi \fi  on input line 1175.
 )
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+\c@caption@flags=\count289
+\c@continuedfloat=\count290
+Package caption Info: listings package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count291
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count292
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/enumitem/enumitem.sty
+Package: enumitem 2019/06/20 v3.9 Customized lists
+\labelindent=\skip79
+\enit@outerparindent=\dimen189
+\enit@toks=\toks26
+\enit@inbox=\box59
+\enit@count@id=\count293
+\enitdp@description=\count294
+) (/usr/local/texlive/2024/texmf-dist/tex/latex/siunitx/siunitx.sty
+Package: siunitx 2024-02-15 v3.3.12 A comprehensive (SI) units package
+\l__siunitx_number_uncert_offset_int=\count295
+\l__siunitx_number_exponent_fixed_int=\count296
+\l__siunitx_number_min_decimal_int=\count297
+\l__siunitx_number_min_integer_int=\count298
+\l__siunitx_number_round_precision_int=\count299
+\l__siunitx_number_lower_threshold_int=\count300
+\l__siunitx_number_upper_threshold_int=\count301
+\l__siunitx_number_group_first_int=\count302
+\l__siunitx_number_group_size_int=\count303
+\l__siunitx_number_group_minimum_int=\count304
+\l__siunitx_angle_tmp_dim=\dimen190
+\l__siunitx_angle_marker_box=\box60
+\l__siunitx_angle_unit_box=\box61
+\l__siunitx_compound_count_int=\count305
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/translations/translations.sty
+Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages (CN)
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count306
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (/usr/local/texlive/2024/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2022/02/03 v1.0f TeX engine tests
+) (/usr/local/texlive/2024/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+\l__siunitx_table_tmp_box=\box62
+\l__siunitx_table_tmp_dim=\dimen191
+\l__siunitx_table_column_width_dim=\dimen192
+\l__siunitx_table_integer_box=\box63
+\l__siunitx_table_decimal_box=\box64
+\l__siunitx_table_uncert_box=\box65
+\l__siunitx_table_before_box=\box66
+\l__siunitx_table_after_box=\box67
+\l__siunitx_table_before_dim=\dimen193
+\l__siunitx_table_carry_dim=\dimen194
+\l__siunitx_unit_tmp_int=\count307
+\l__siunitx_unit_position_int=\count308
+\l__siunitx_unit_total_int=\count309
+)
+Package translations Info: No language package found. I am going to use `english' as default language. on input line 43.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-02-20 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count310
+\l__pdf_internal_box=\box68
+) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
 
 -- Lines per column: 56 (exact).
 (/usr/local/texlive/2024/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count290
-\scratchdimen=\dimen181
-\scratchbox=\box60
-\nofMPsegments=\count291
-\nofMParguments=\count292
-\everyMPshowfont=\toks26
-\MPscratchCnt=\count293
-\MPscratchDim=\dimen182
-\MPnumerator=\count294
-\makeMPintoPDFobject=\count295
-\everyMPtoPDFconversion=\toks27
+\scratchcounter=\count311
+\scratchdimen=\dimen195
+\scratchbox=\box69
+\nofMPsegments=\count312
+\nofMParguments=\count313
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count314
+\MPscratchDim=\dimen196
+\MPnumerator=\count315
+\makeMPintoPDFobject=\count316
+\everyMPtoPDFconversion=\toks28
 ) (/usr/local/texlive/2024/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2024/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-\c@lstlisting=\count296
+\c@lstlisting=\count317
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+ (/usr/local/texlive/2024/texmf-dist/tex/latex/translations/translations-basic-dictionary-english.trsl
+File: translations-basic-dictionary-english.trsl (english translation file `translations-basic-dictionary')
+)
+Package translations Info: loading dictionary `translations-basic-dictionary' for `english'. on input line 43.
  [1{/usr/local/texlive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
-] [2]
-<toasterpet.jpg, id=21, 853.1875pt x 761.84625pt>
-File: toasterpet.jpg Graphic file (type jpg)
-<use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 152.
-(pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 171.
- (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [3 <./toasterpet.jpg>]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 201.
- (/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
-[]\OT1/ptm/m/n/10 Applied \OT1/pcr/m/n/10 split_and_add() \OT1/ptm/m/n/10 or
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 202--203
-\OT1/pcr/m/n/10 split_and_center() \OT1/ptm/m/n/10 to gen-er-ate clean
- []
-
-File: toasterpet.jpg Graphic file (type jpg)
-<use toasterpet.jpg>
-Package pdftex.def Info: toasterpet.jpg  used on input line 213.
-(pdftex.def)             Requested size: 176.39923pt x 157.51634pt.
-
-Underfull \hbox (badness 6094) in paragraph at lines 268--268
-[]|\OT1/ptm/m/n/8 Logistic Re-gres-sion, Lin-ear
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 274--274
-[]|\OT1/ptm/m/n/8 Effective with non-lin-ear
- []
-
-[4]
-Underfull \hbox (badness 3954) in paragraph at lines 332--333
+] [2] [3]
+Underfull \hbox (badness 4001) in paragraph at lines 212--213
 []\OT1/ptm/m/n/10 LDA again showed rel-a-tively bet-ter gen-er-al-iza-tion
  []
 
+<combined test 14.jpeg, id=23, 555.07375pt x 454.69875pt>
+File: combined test 14.jpeg Graphic file (type jpg)
+<use combined test 14.jpeg>
+Package pdftex.def Info: combined test 14.jpeg  used on input line 220.
+(pdftex.def)             Requested size: 113.39923pt x 92.88774pt.
+<combined unseen 14.jpeg, id=24, 546.04pt x 454.69875pt>
+File: combined unseen 14.jpeg Graphic file (type jpg)
+<use combined unseen 14.jpeg>
+Package pdftex.def Info: combined unseen 14.jpeg  used on input line 226.
+(pdftex.def)             Requested size: 113.39923pt x 94.42801pt.
+<adl test 14.jpeg, id=25, 555.07375pt x 454.69875pt>
+File: adl test 14.jpeg Graphic file (type jpg)
+<use adl test 14.jpeg>
+Package pdftex.def Info: adl test 14.jpeg  used on input line 248.
+(pdftex.def)             Requested size: 113.39923pt x 92.88774pt.
+<adl unseen 14.jpeg, id=26, 546.04pt x 454.69875pt>
+File: adl unseen 14.jpeg Graphic file (type jpg)
+<use adl unseen 14.jpeg>
+Package pdftex.def Info: adl unseen 14.jpeg  used on input line 254.
+(pdftex.def)             Requested size: 113.39923pt x 94.42801pt.
+<binary test 14.jpeg, id=27, 537.00626pt x 454.69875pt>
+File: binary test 14.jpeg Graphic file (type jpg)
+<use binary test 14.jpeg>
+Package pdftex.def Info: binary test 14.jpeg  used on input line 276.
+(pdftex.def)             Requested size: 113.39923pt x 96.01685pt.
+<binary unseen 14.jpeg, id=28, 530.98375pt x 454.69875pt>
+File: binary unseen 14.jpeg Graphic file (type jpg)
+<use binary unseen 14.jpeg>
+Package pdftex.def Info: binary unseen 14.jpeg  used on input line 282.
+(pdftex.def)             Requested size: 113.39923pt x 97.10614pt.
+<combined test 33.jpeg, id=29, 555.07375pt x 454.69875pt>
+File: combined test 33.jpeg Graphic file (type jpg)
+<use combined test 33.jpeg>
+Package pdftex.def Info: combined test 33.jpeg  used on input line 306.
+(pdftex.def)             Requested size: 113.39923pt x 92.88774pt.
+<combined unseen 33.jpeg, id=30, 546.04pt x 454.69875pt>
+File: combined unseen 33.jpeg Graphic file (type jpg)
+<use combined unseen 33.jpeg>
+Package pdftex.def Info: combined unseen 33.jpeg  used on input line 312.
+(pdftex.def)             Requested size: 113.39923pt x 94.42801pt.
+<adl test 33.jpeg, id=31, 555.07375pt x 454.69875pt>
+File: adl test 33.jpeg Graphic file (type jpg)
+<use adl test 33.jpeg>
+Package pdftex.def Info: adl test 33.jpeg  used on input line 330.
+(pdftex.def)             Requested size: 113.39923pt x 92.88774pt.
+<adl unseen 33.jpeg, id=32, 546.04pt x 454.69875pt>
+File: adl unseen 33.jpeg Graphic file (type jpg)
+<use adl unseen 33.jpeg>
+Package pdftex.def Info: adl unseen 33.jpeg  used on input line 336.
+(pdftex.def)             Requested size: 113.39923pt x 94.42801pt.
+<binary test 33.jpeg, id=33, 537.00626pt x 454.69875pt>
+File: binary test 33.jpeg Graphic file (type jpg)
+<use binary test 33.jpeg>
+Package pdftex.def Info: binary test 33.jpeg  used on input line 355.
+(pdftex.def)             Requested size: 113.39923pt x 96.01685pt.
+<binary unseen 33.jpeg, id=34, 530.98375pt x 454.69875pt>
+File: binary unseen 33.jpeg Graphic file (type jpg)
+<use binary unseen 33.jpeg>
+Package pdftex.def Info: binary unseen 33.jpeg  used on input line 361.
+(pdftex.def)             Requested size: 113.39923pt x 97.10614pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 5175) in paragraph at lines 371--373
+ \OT1/ptm/m/it/10 3) Key Ob-ser-va-tions: [][] \OT1/ptm/m/n/10 The con-tin-u-ous ML clas-si-fier
+ []
+
+[4 <./combined test 14.jpeg> <./combined unseen 14.jpeg> <./adl test 14.jpeg> <./adl unseen 14.jpeg> <./binary test 14.jpeg> <./binary unseen 14.jpeg> <./combined test 33.jpeg> <./combined unseen 33.jpeg>]
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 []|\OT1/ptm/b/n/8 Best Test
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 \OT1/ptm/b/n/8 Ac-cu-racy
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 []|\OT1/ptm/b/n/8 Best Test
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 \OT1/ptm/b/n/8 Ac-cu-racy
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 \OT1/ptm/b/n/8 Ac-cu-racy
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 392--392
+Underfull \hbox (badness 10000) in paragraph at lines 388--388
 \OT1/ptm/b/n/8 Ac-cu-racy
  []
 
 
-Underfull \hbox (badness 2837) in paragraph at lines 394--394
-[]|\OT1/ptm/m/n/8 0.9993 (Ex-
+Underfull \hbox (badness 10000) in paragraph at lines 390--390
+[]|\OT1/ptm/m/n/8 (LDA)
  []
 
 
-Underfull \hbox (badness 2837) in paragraph at lines 394--394
-[]|\OT1/ptm/m/n/8 0.9950 (Ex-
+Underfull \hbox (badness 10000) in paragraph at lines 390--390
+[]|\OT1/ptm/m/n/8 (LDA)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+[]|\OT1/ptm/m/n/8 (SVM)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 392--392
+[]|\OT1/ptm/m/n/8 (Logistic
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 394--394
-[]|\OT1/ptm/m/n/8 0.4937
+[]|\OT1/ptm/m/n/8 (LDA)
  []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 394--394
-[]|\OT1/ptm/m/n/8 0.4937
+[]|\OT1/ptm/m/n/8 (LDA)
  []
 
 
-Underfull \hbox (badness 2837) in paragraph at lines 396--396
-[]|\OT1/ptm/m/n/8 1.0000 (Ex-
- []
-
-
-Underfull \hbox (badness 2837) in paragraph at lines 396--396
-[]|\OT1/ptm/m/n/8 0.9971 (Ex-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 396--396
-[]|\OT1/ptm/m/n/8 0.5867
- []
-
-
-Underfull \hbox (badness 2837) in paragraph at lines 396--396
-[]|\OT1/ptm/m/n/8 0.5333 (Lo-
- []
-
-
-Underfull \hbox (badness 2837) in paragraph at lines 398--398
-[]|\OT1/ptm/m/n/8 0.9993 (Ex-
- []
-
-
-Underfull \hbox (badness 2837) in paragraph at lines 398--398
-[]|\OT1/ptm/m/n/8 0.9993 (Ex-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 398--398
-[]|\OT1/ptm/m/n/8 0.9620
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 398--398
-[]|\OT1/ptm/m/n/8 0.9873
- []
-
-
-Overfull \hbox (32.3315pt too wide) in paragraph at lines 390--401
+Overfull \hbox (20.95013pt too wide) in paragraph at lines 386--398
  [][] 
  []
 
-[5] (/usr/local/texlive/2024/texmf-dist/tex/latex/listings/lstlang1.sty
-File: lstlang1.sty 2024/02/21 1.10 listings language file
-) [6] [7]
-<schematic.png, id=40, 470.04408pt x 521.21124pt>
-File: schematic.png Graphic file (type png)
-<use schematic.png>
-Package pdftex.def Info: schematic.png  used on input line 590.
-(pdftex.def)             Requested size: 226.79846pt x 251.4908pt.
 
-Underfull \hbox (badness 2042) in paragraph at lines 648--652
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 426.
+(/usr/local/texlive/2024/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+) [5 <./adl test 33.jpeg> <./adl unseen 33.jpeg> <./binary test 33.jpeg> <./binary unseen 33.jpeg>]
+<image.png, id=41, 1284.8pt x 1250.6725pt>
+File: image.png Graphic file (type png)
+<use image.png>
+Package pdftex.def Info: image.png  used on input line 475.
+(pdftex.def)             Requested size: 252.0pt x 245.3019pt.
+ [6 <./image.png>]
+Underfull \hbox (badness 2865) in paragraph at lines 504--505
+[]\OT1/ptm/b/n/10 Personalized Mod-els\OT1/ptm/m/n/10 : In-ves-ti-gat-ing per-son-al-ized or
+ []
+
+[7
+
+]
+** WARNING: Ignoring useless \section in Appendix (line 513).
+
+Underfull \hbox (badness 10000) in paragraph at lines 555--556
+[]|$[] \OT1/cmr/m/n/9 = [] \OMS/cmsy/m/n/9 ^^A
+ []
+
+[8
+
+
+] [9]
+Underfull \hbox (badness 2799) in paragraph at lines 607--611
 []\OT1/ptm/m/n/8 Li, Q., Stankovic, J. A., Han-son, M. A., Barth, A. T., Lach,
  []
 
 
-Underfull \hbox (badness 1990) in paragraph at lines 648--652
+Underfull \hbox (badness 2818) in paragraph at lines 607--611
 \OT1/ptm/m/n/8 J., & Zhou, G. (2009). \OT1/ptm/m/it/8 Ac-cu-rate, fast fall de-tec-tion us-ing gy-
  []
 
 
-Underfull \hbox (badness 2469) in paragraph at lines 648--652
+Underfull \hbox (badness 4168) in paragraph at lines 607--611
 \OT1/ptm/m/it/8 ro-scopes and accelerometer-derived pos-ture in-for-ma-tion\OT1/ptm/m/n/8 , In Pro-
  []
 
 
-Underfull \hbox (badness 4120) in paragraph at lines 648--652
+Underfull \hbox (badness 5802) in paragraph at lines 607--611
 \OT1/ptm/m/n/8 ceed-ings of the 2009 Sixth In-ter-na-tional Work-shop on Wear-
  []
 
-[8 <./schematic.png>]
-Underfull \hbox (badness 2409) in paragraph at lines 655--659
-[]\OT1/ptm/m/n/8 Wang, Y., Sar-vari, P. A., & Khadraoui, D. (2024). \OT1/ptm/m/it/8 Fu-sion of
+
+Underfull \hbox (badness 2334) in paragraph at lines 613--617
+\OT1/ptm/m/it/8 chine Learn-ing and Threshold-Based Ap-proaches for Fall De-tec-
  []
 
 
-Underfull \hbox (badness 1810) in paragraph at lines 655--659
-\OT1/ptm/m/it/8 tec-tion in Health-care Us-ing In-er-tial Sen-sors\OT1/ptm/m/n/8 , In Pro-ceed-ings of
+Underfull \hbox (badness 1389) in paragraph at lines 613--617
+\OT1/ptm/m/it/8 tion in Health-care Us-ing In-er-tial Sen-sors\OT1/ptm/m/n/8 , In Pro-ceed-ings of the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 669--673
+Underfull \hbox (badness 3930) in paragraph at lines 613--617
+\OT1/ptm/m/n/8 tems and Tech-nolo-gies (BIOSTEC 2024), vol. 1, pp. 573-582.
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 625--629
 []\OT1/ptm/m/n/8 Althobaiti, T., Kat-si-gian-nis, S., & Ramzan, N. (2020).
  []
 
 
-Underfull \hbox (badness 3009) in paragraph at lines 669--673
+Underfull \hbox (badness 4621) in paragraph at lines 625--629
 \OT1/ptm/m/it/8 Tri-ax-ial Accelerometer[]Based Falls and Ac-tiv-i-ties of Daily Life
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 669--673
+Underfull \hbox (badness 10000) in paragraph at lines 625--629
 \OT1/ptm/m/it/8 De-tec-tion Us-ing Ma-chine Learn-ing\OT1/ptm/m/n/8 , Sen-sors, 20(13), 3777.
  []
 
 
-Underfull \hbox (badness 4048) in paragraph at lines 683--687
+Underfull \hbox (badness 5345) in paragraph at lines 637--641
 []\OT1/ptm/m/n/8 Skoglund, M. A., Balzi, G., Jensen, E. L., Bhuiyan, T. A.,
  []
 
 
-Underfull \hbox (badness 4024) in paragraph at lines 683--687
+Underfull \hbox (badness 5954) in paragraph at lines 637--641
 \OT1/ptm/m/n/8 & Rotger-Griful, S. (2021). \OT1/ptm/m/it/8 Ac-tiv-ity Track-ing Us-ing Ear-Level
  []
 
 
-Underfull \hbox (badness 3646) in paragraph at lines 683--687
+Underfull \hbox (badness 5460) in paragraph at lines 637--641
 \OT1/ptm/m/it/8 Ac-celerom-e-ters\OT1/ptm/m/n/8 , Fron-tiers in Dig-i-tal Health, 3, Ar-ti-cle 724714.
  []
 
 
-Underfull \hbox (badness 7667) in paragraph at lines 690--694
+Underfull \hbox (badness 7667) in paragraph at lines 643--647
 []\OT1/ptm/m/n/8 Palmerini, L., Klenk, J., Becker, C., & Chiari, L. (2020).
  []
 
 
-Underfull \hbox (badness 5077) in paragraph at lines 690--694
+Underfull \hbox (badness 6995) in paragraph at lines 643--647
 \OT1/ptm/m/it/8 ing and Test-ing on Real[]World Falls\OT1/ptm/m/n/8 , Sen-sors, 20(22), 6479.
  []
 
 
-Underfull \hbox (badness 3861) in paragraph at lines 697--701
+Underfull \hbox (badness 3861) in paragraph at lines 649--653
 []\OT1/ptm/m/n/8 Boborzi, L., Decker, J., Rezaei, R., Schniepp, R., & Wuehr,
  []
 
 
-Underfull \hbox (badness 1939) in paragraph at lines 697--701
+Underfull \hbox (badness 2990) in paragraph at lines 649--653
 \OT1/ptm/m/it/8 ment Us-ing an Ear[]Worn Mo-tion Sen-sor\OT1/ptm/m/n/8 , Sen-sors, 24(9), 2665.
  []
 
 
-Underfull \hbox (badness 2443) in paragraph at lines 704--708
+Underfull \hbox (badness 3657) in paragraph at lines 655--659
 \OT1/ptm/m/it/8 to-matic Fall De-tec-tion in Older Adults\OT1/ptm/m/n/8 , Sen-sors, 21(21), 7166.
  []
 
 
-Underfull \hbox (badness 4291) in paragraph at lines 711--715
+Underfull \hbox (badness 4291) in paragraph at lines 661--665
 []\OT1/ptm/m/n/8 Bennasar, M., Price, B. A., Gooch, D., Ban-dara, A. K., &
  []
 
 
-Underfull \hbox (badness 5563) in paragraph at lines 711--715
+Underfull \hbox (badness 7925) in paragraph at lines 661--665
 \OT1/ptm/m/n/8 Nu-seibeh, B. (2022). \OT1/ptm/m/it/8 Sig-nif-i-cant Fea-tures for Hu-man Ac-tiv-ity
- []
-
-
-Underfull \hbox (badness 3396) in paragraph at lines 733--736
-\OT1/ptm/m/n/8 2, Amer-i-can Math-e-mat-i-cal So-ci-ety (AMS), 1944, pp. 164-168.
- []
-
-
-Overfull \hbox (20.7281pt too wide) in paragraph at lines 733--736
-\OT1/pcr/m/n/8 https://www.ams.org/journals/qam/1944-02-02/home.html 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 737--741
-[]\OT1/ptm/m/n/8 Donald W. Mar-quardt, \OT1/ptm/m/it/8 An Al-go-rithm for Least-Squares
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 737--741
-\OT1/ptm/m/it/8 Es-ti-ma-tion of Non-lin-ear Pa-ram-e-ters\OT1/ptm/m/n/8 , SIAM Jour-nal on
- []
-
-
-Underfull \hbox (badness 7291) in paragraph at lines 737--741
-\OT1/ptm/m/n/8 Ap-plied Math-e-mat-ics, vol. 11, no. 2, So-ci-ety for In-dus-trial
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 737--741
-\OT1/ptm/m/n/8 and Ap-plied Math-e-mat-ics (SIAM), 1963, pp. 431-441.
- []
-
-
-Underfull \hbox (badness 5460) in paragraph at lines 743--744
-[]\OT1/ptm/m/n/8 Robot jokes, https://jokes.scoutlife.org/topics/robot-jokes/, ac-cessed
  []
 
 
@@ -593,31 +669,29 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[9
+[10
+
+
 
 ] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
-
-
-LaTeX Warning: There were multiply-defined labels.
-
  ) 
 Here is how much of TeX's memory you used:
- 5284 strings out of 474116
- 81636 string characters out of 5743681
- 1961187 words of memory out of 5000000
- 27587 multiletter control sequences out of 15000+600000
- 604899 words of font info for 123 fonts, out of 8000000 for 9000
+ 11001 strings out of 474116
+ 239251 string characters out of 5743681
+ 1949187 words of memory out of 5000000
+ 33271 multiletter control sequences out of 15000+600000
+ 599948 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,10n,65p,1038b,1293s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (9 pages, 467710 bytes).
+ 73i,15n,80p,1589b,530s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (10 pages, 526347 bytes).
 PDF statistics:
- 109 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 146 PDF objects out of 1000 (max. 8388607)
+ 82 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 66 words of extra memory for PDF output out of 10000 (max. 10000000)
 
